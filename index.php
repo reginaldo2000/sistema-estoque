@@ -11,6 +11,8 @@ $route->get("/", "UsuarioController:paginaLogin");
 $route->get("/dashboard", "HomeController:paginaInicial");
 
 $route->namespace("Source\Controller")->group("usuario");
+$route->get("/lista", "UsuarioController:paginaUsuario");
+
 $route->post("/autenticar", "UsuarioController:autenticar");
 
 /**

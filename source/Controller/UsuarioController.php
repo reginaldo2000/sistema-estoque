@@ -22,7 +22,7 @@ class UsuarioController extends Controller
 
     public function paginaLogin(): void
     {
-        if(isset(session()->usuario)) {
+        if (isset(session()->usuario)) {
             redirect("/dashboard");
         }
         $this->responseView("login/pagina-login", []);
@@ -34,7 +34,7 @@ class UsuarioController extends Controller
         $senha = md5($data["senha"]);
         try {
             $usuarioObj = UsuarioDAO::getUsuario($usuario, $senha);
-            if(!$usuarioObj) {
+            if (!$usuarioObj) {
                 session_set("msgAlerta", "Usuário ou senha incorretos!");
                 redirect("/");
             }
@@ -42,6 +42,17 @@ class UsuarioController extends Controller
             redirect("/dashboard");
         } catch (Exception $e) {
             redirect("/oops/{$e->getCode()}");
+        }
+    }
+
+    public function paginaUsuario(array $data): void
+    {
+        $nomeUsuario = (filter_input(INPUT_GET, "nome_usuario") ? filter_input(INPUT_GET, "nome_usuario", FILTER_SANITIZE_SPECIAL_CHARS) : "");
+        try {
+            $listaUsuarios = UsuarioDAO::listaUsuarios($nomeUsuario);
+            var_dump($listaUsuarios);
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
 }

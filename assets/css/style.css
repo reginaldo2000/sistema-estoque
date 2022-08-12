@@ -92,15 +92,17 @@
 }
 
 .conteudo_principal {
-    max-width: 1300px;
-    margin: 86px auto;
+    max-width: calc(100% - 340px);
+    margin-top: 86px;
+    margin-left: 320px;
     background-color: #fff;
     border-radius: 5px;
+    box-shadow: 0px 0px 1px 2px #555;
 }
 
 .conteudo_principal .header {
     padding: 16px;
-    border-bottom: 2px solid #aaa;
+    border-bottom: 1px solid #555;
 }
 
 .conteudo_principal .header h2 {
@@ -110,4 +112,38 @@
 
 .conteudo_principal .conteudo {
     padding: 16px;
+}
+
+
+/* CSS do menu */
+
+.menu_principal {
+    position: fixed;
+    z-index: 900;
+    width: 300px;
+    background-color: #22222f;
+    height: 100vh;
+    top: 70px;
+}
+
+.menu_principal ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu_principal ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    width: 100%;
+    height: 36px;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.menu_principal ul li a:hover {
+    background-color: #2f4f4f;
 }
