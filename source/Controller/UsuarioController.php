@@ -50,7 +50,10 @@ class UsuarioController extends Controller
         $nomeUsuario = (filter_input(INPUT_GET, "nome_usuario") ? filter_input(INPUT_GET, "nome_usuario", FILTER_SANITIZE_SPECIAL_CHARS) : "");
         try {
             $listaUsuarios = UsuarioDAO::listaUsuarios($nomeUsuario);
-            var_dump($listaUsuarios);
+            $this->responseView("usuario/pagina-usuario", [
+                "nomePagina" => "Lista de Usuários",
+                "listaUsuarios" => $listaUsuarios
+            ]);
         } catch (Exception $e) {
             echo $e->getMessage();
         }

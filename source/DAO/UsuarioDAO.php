@@ -27,9 +27,12 @@ class UsuarioDAO extends EntityManagerFactory
     public static function listaUsuarios(?string $nomeUsuario): ?array
     {
         try {
-            $listaUsuarios = EntityManagerFactory::getEntityManager()
-                ->createQuery("SELECT u FROM Source\Entity\Usuario u WHERE u.nomeUsuario LIKE ?1")
-                ->setParameter(1, "'%$nomeUsuario%'")
+            $usuarioRepo = EntityManagerFactory::getEntityManager()->getRepository(Usuario::class)
+                ->createQueryBuilder('u');
+
+            $listaUsuarios = $usuarioRepo->where($usuarioRepo->expr()->like("u.nomeUsuario", ":nomeUsuario"))
+                ->setParameter("nomeUsuario", '%' . $nomeUsuario . '%')
+                ->getQuery()
                 ->getResult();
             return $listaUsuarios;
         } catch (Exception $e) {

@@ -147,3 +147,7 @@
 .menu_principal ul li a:hover {
     background-color: #2f4f4f;
 }
+
+.fs-18 {
+    font-size: 18px !important;
+}

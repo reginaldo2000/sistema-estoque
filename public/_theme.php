@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= NOME_PROJETO; ?></title>
     <link rel="stylesheet" href="<?= url("/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"); ?>">
+    <link rel="stylesheet" href="<?= url("/vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map"); ?>">
     <link rel="stylesheet" href="<?= asset("/css/style.css"); ?>">
     <link rel="stylesheet" href="<?= asset("/font-awesome-4.7.0/css/font-awesome.min.css"); ?>">
 </head>
@@ -49,6 +50,9 @@
         </section>
     </main>
 
+    <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
+    <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js.map"); ?>"></script>
+    <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
 </body>
 
 </html>

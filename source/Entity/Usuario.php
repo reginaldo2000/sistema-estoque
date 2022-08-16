@@ -4,6 +4,7 @@ namespace Source\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\Common\Annotations\Annotation\Enum;
 
 /**
  * @ORM\Entity
@@ -33,6 +34,11 @@ class Usuario
      * @ORM\Column(type="string", name="nome_usuario")
      */
     private string $nomeUsuario;
+
+    /**
+     * @ORM\Column(type="string", options={"default":"ATIVO"})
+     */
+    private string $status = "ATIVO";
 
     /**
      * @ORM\Column(type="datetime", name="data_criacao")
@@ -82,6 +88,16 @@ class Usuario
     public function setNomeUsuario(string $nomeUsuario): void
     {
         $this->nomeUsuario = $nomeUsuario;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 
     public function getDataCriacao(): DateTime
