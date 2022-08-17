@@ -7,15 +7,15 @@ use CoffeeCode\Router\Router;
 $route = new Router(MAIN_URL);
 
 $route->namespace("Source\Controller");
-$route->get("/", "UsuarioController:paginaLogin");
+$route->get("/", "AuthController:paginaLogin");
 $route->get("/dashboard", "HomeController:paginaInicial");
 
 $route->namespace("Source\Controller")->group("usuario");
 $route->get("/lista", "UsuarioController:paginaUsuario");
 $route->get("/dados-usuario/{id}", "UsuarioController:getDadosUsuario");
-
-$route->post("/autenticar", "UsuarioController:autenticar");
+$route->post("/autenticar", "AuthController:autenticar");
 $route->post("/salvar", "UsuarioController:salvar");
+$route->delete("/excluir", "UsuarioController:excluirUsuario");
 
 /**
  * Rotas de tratamento de erros

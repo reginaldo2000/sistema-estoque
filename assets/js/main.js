@@ -31,7 +31,7 @@
                     const ajaxAlert = form.getAttribute("ajax-alert");
 
                     if (ajaxCloseModal) {
-                        $("#modalSalvarUsuario").modal("hide");
+                        $(".modal").modal("hide");
                     }
 
                     if (ajaxResetForm) {
@@ -48,12 +48,11 @@
                     }
 
                     eventEdit();
+                    eventDelete();
                     ajaxFecharModalLoading(600);
-                    console.log(dados);
                 }).catch(erro => {
                     ajaxFecharModalLoading(3000);
-                    console.log("erro");
-                    console.log(erro);
+                    ajaxAlerta(true, form.getAttribute("ajax-alert"), erro);
                 });
 
             }
@@ -86,6 +85,37 @@ const eventEdit = () => {
 };
 
 eventEdit();
+
+const eventDelete = () => {
+    const dataDelete = document.querySelectorAll("[ajax-delete]");
+    dataDelete.forEach(item => {
+        item.addEventListener("click", () => {
+            const urlRequest = item.getAttribute("ajax-action");
+
+            fetch(urlRequest)
+                .then(response => {
+                    return response.json();
+                })
+                .then(object => {
+
+                    Object.keys(object).forEach(seletor => {
+                        let elemento = document.querySelector("[ajax-delete-id]");
+                        elemento.value = object["id"];
+                    });
+
+                    const seletorModal = document.querySelector("[ajax-delete]").getAttribute("ajax-delete");
+                    $(seletorModal).modal("show");
+
+                })
+                .catch(erro => {
+                    console.log(erro);
+                });
+        });
+
+    });
+};
+
+eventDelete();
 
 const ajaxAlerta = (erro, seletor, message) => {
     const alert = document.querySelector(seletor);

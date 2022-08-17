@@ -21,34 +21,9 @@ class UsuarioController extends Controller
         parent::__construct(__DIR__ . "/../../public");
     }
 
-    public function paginaLogin(): void
-    {
-        if (isset(session()->usuario)) {
-            redirect("/dashboard");
-        }
-        $this->responseView("login/pagina-login", []);
-    }
-
-    public function autenticar(array $data): void
-    {
-        $usuario = $data["usuario"];
-        $senha = md5($data["senha"]);
-        try {
-            $usuarioObj = UsuarioDAO::getUsuario($usuario, $senha);
-            if (!$usuarioObj) {
-                session_set("msgAlerta", "Usuário ou senha incorretos!");
-                redirect("/");
-            }
-            session_set("usuario", $usuarioObj);
-            redirect("/dashboard");
-        } catch (Exception $e) {
-            redirect("/oops/{$e->getCode()}");
-        }
-    }
-
     public function paginaUsuario(array $data): void
     {
-        $nomeUsuario = (filter_input(INPUT_GET, "nome_usuario") ? filter_input(INPUT_GET, "nome_usuario", FILTER_SANITIZE_SPECIAL_CHARS) : "");
+        $nomeUsuario = (filter_input(INPUT_GET, "pesquisa") ? filter_input(INPUT_GET, "pesquisa", FILTER_SANITIZE_SPECIAL_CHARS) : "");
         try {
             $listaUsuarios = UsuarioDAO::listaUsuarios($nomeUsuario);
             $this->responseView("usuario/pagina-usuario", [
@@ -72,7 +47,6 @@ class UsuarioController extends Controller
 
             if ($data["id"] == "") {
                 $usuario->setDataCriacao(new DateTime());
-
                 UsuarioDAO::salvar($usuario);
                 $this->responseJson(false, "Usuário cadastrado com sucesso!", $this->renderTableUsuarios());
             } else {
@@ -93,6 +67,21 @@ class UsuarioController extends Controller
             echo json_encode($usuario->toArray(), JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
             return;
+        }
+    }
+
+    public function excluirUsuario(array $data): void
+    {
+        try {
+            $id = $data["id"];
+            $usuario = UsuarioDAO::getUsuarioById($id);
+            if(empty($usuario)) {
+                throw new Exception("Usuário não encontrado!", 400);
+            }
+            UsuarioDAO::excluir($usuario->getId());
+            $this->responseJson(false, "Usuário excluído com sucesso!", $this->renderTableUsuarios());
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage());
         }
     }
 

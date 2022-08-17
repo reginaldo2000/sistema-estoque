@@ -1,5 +1,6 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 <?php $this->insert("usuario/_includes/_modal-salvar-usuario"); ?>
+<?php $this->insert("usuario/_includes/_modal-excluir-usuario"); ?>
 
 <div id="alert" class="alert alert-dismissible" role="alert" hidden>
     <span></span>
@@ -11,7 +12,7 @@
 </a>
 
 <div class="card card-footer">
-    <form method="GET" action="" autocomplete="off">
+    <form method="GET" action="<?= url("/usuario/lista"); ?>" autocomplete="off">
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <label for="pesquisa">Pesquisar:</label>

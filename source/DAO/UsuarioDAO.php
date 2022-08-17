@@ -39,7 +39,7 @@ class UsuarioDAO
             $usuarioRepo = EntityManagerFactory::getEntityManager()->getRepository(Usuario::class)
                 ->createQueryBuilder('u');
 
-            $listaUsuarios = $usuarioRepo->where($usuarioRepo->expr()->like("u.nomeUsuario", ":nomeUsuario"))
+            $listaUsuarios = $usuarioRepo->where("u.nomeUsuario LIKE :nomeUsuario AND u.status != 'EXCLUIDO'")
                 ->setParameter("nomeUsuario", '%' . $nomeUsuario . '%')
                 ->getQuery()
                 ->getResult();
@@ -93,6 +93,18 @@ class UsuarioDAO
                 ->find(Usuario::class, $id);
         } catch (Exception $e) {
             throw new Exception("Usuário não encontrado! {$e->getMessage()}", 500);
+        }
+    }
+
+    public static function excluir(int $id): void
+    {
+        try {
+            $em = EntityManagerFactory::getEntityManager();
+            $usuario = $em->find(Usuario::class, $id);
+            $usuario->setStatus("EXCLUIDO");
+            $em->flush();
+        } catch (Exception $e) {
+            throw new Exception("Erro ao excluir o usuário!", 500);
         }
     }
 }
