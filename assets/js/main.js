@@ -1,66 +1,83 @@
-const listaFormularios = document.querySelectorAll(".form-ajax");
-
-listaFormularios.forEach(formulario => {
-    formulario.addEventListener("submit", event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const formData = new FormData(formulario);
-
-        if (formulario.checkValidity()) {
-            ajaxAbrirModalLoading();
-            const URL_REQUEST = formulario.getAttribute("action");
-            fetch(URL_REQUEST, {
-                body: formData,
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            }).then(response => {
-                return response.json();
-            }).then(dados => {
-                ajaxFecharModalLoading(600);
-                console.log(dados);
-            }).catch(erro => {
-                ajaxFecharModalLoading(1800);
-                console.log(erro.message);
-            });
-        }
-    }, false);
-});
-
-const ajaxAbrirModalLoading = () => {
-    const body = document.querySelector("body");
-    body.innerHTML += MODAL_LOADING;
-};
-
-const ajaxFecharModalLoading = timeSleep => {
-    setTimeout(() => {
-        const elemento = document.querySelector("#ajaxFormLoading");
-        elemento.remove();
-    }, timeSleep);
-};
-
 (() => {
     'use strict'
-    const forms = document.querySelectorAll('.needs-validation')
+    const forms = document.querySelectorAll('.form-ajax');
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
+            event.stopPropagation();
+            event.preventDefault();
+            form.classList.add('was-validated');
 
-            form.classList.add('was-validated')
+            if (form.checkValidity()) {
+
+                ajaxAbrirModalLoading();
+
+                const URL_REQUEST = form.getAttribute("action");
+
+                const formData = new URLSearchParams(new FormData(form));
+
+                fetch(URL_REQUEST, {
+                    body: formData,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                }).then(response => {
+                    return response.json();
+                }).then(dados => {
+
+                    const ajaxRender = form.getAttribute("ajax-render");
+                    const ajaxCloseModal = form.getAttribute("ajax-close-modal");
+                    const ajaxResetForm = form.getAttribute("ajax-reset-form");
+                    const ajaxAlert = form.getAttribute("ajax-alert");
+
+                    if (ajaxCloseModal) {
+                        $("#modalSalvarUsuario").modal("hide");
+                    }
+
+                    if (ajaxResetForm) {
+                        form.reset();
+                        form.classList.remove("was-validated");
+                    }
+
+                    if (dados.render != "") {
+                        document.querySelector(ajaxRender).innerHTML = dados.render;
+                    }
+
+                    if (dados.message != "") {
+                        ajaxAlerta(dados.erro, ajaxAlert, dados.message);
+                    }
+
+                    ajaxFecharModalLoading(600);
+                    console.log(dados);
+                }).catch(erro => {
+                    ajaxFecharModalLoading(3000);
+                    console.log("erro");
+                    console.log(erro);
+                });
+            }
         }, false)
     })
 })()
 
-const MODAL_LOADING = `
-<div id="ajaxFormLoading">
-    <div class="ajax-form-fundo-loading"></div>
-    <div class="ajax-form-fundo-modal">
-        <div class="ajax-form-loading"></div>
-    </div>
-</div>
-`;
+const ajaxAlerta = (erro, seletor, message) => {
+    const alert = document.querySelector(seletor);
+    let nomeClass = erro ? "alert-danger" : "alert-success";
+    alert.removeAttribute("class");
+    alert.classList.add(nomeClass, "alert", "fade", "show");
+    alert.children[0].innerHTML = message;
+    alert.removeAttribute("hidden");
+};
+
+const ajaxAbrirModalLoading = () => {
+    document.getElementById("ajaxFormLoading").removeAttribute("hidden");
+};
+
+const ajaxFecharModalLoading = timeSleep => {
+    setTimeout(() => {
+        document.getElementById("ajaxFormLoading").setAttribute("hidden", true);
+    }, timeSleep);
+};
+
+document.querySelector(".alert button").addEventListener("click", () => {
+    $(this).parent().addClass("hidden");
+});

@@ -1,10 +1,9 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
-<?php $this->insert("usuario/_includes/_modais/_modal-salvar-usuario"); ?>
+<?php $this->insert("usuario/_includes/_modal-salvar-usuario"); ?>
 
-<div class="row">
-    <div class="col-lg-12">
-
-    </div>
+<div id="alert" class="alert" role="alert" hidden>
+    <span></span>
+    <button type="button" class="btn-close" aria-label="Close"></button>
 </div>
 
 <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalSalvarUsuario">
@@ -38,20 +37,8 @@
                 <th class="text-center text-uppercase" colspan="2">ações</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($listaUsuarios as $u) : ?>
-                <tr>
-                    <td><?= $u->getUsuario(); ?></td>
-                    <td><?= $u->getNomeUsuario(); ?></td>
-                    <td><?= $u->getDataModificacao()->format("d/m/Y H:i"); ?></td>
-                    <td class="text-center">
-                        <a href="#"><i class="fa fa-pencil fs-18 text-dark"></i></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="#"><i class="fa fa-trash fs-18 text-danger"></i></a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+        <tbody id="tableUsuarios">
+            <?php include __DIR__."/_includes/_table-usuarios.php"; ?>
         </tbody>
     </table>
 </div>

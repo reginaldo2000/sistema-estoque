@@ -51,11 +51,18 @@
         </section>
     </main>
 
+    <div id="ajaxFormLoading" hidden>
+        <div class="ajax-form-fundo-loading"></div>
+        <div class="ajax-form-fundo-modal">
+            <div class="ajax-form-loading"></div>
+        </div>
+    </div>
+
     <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
     <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
-    
+
 </body>
 
 </html>

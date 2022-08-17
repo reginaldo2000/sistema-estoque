@@ -5,9 +5,11 @@
                 <h5 class="modal-title">Salvar Usuário</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="<?= url("/usuario/salvar"); ?>" class="form-ajax needs-validation" autocomplete="off" novalidate>
+            <form method="POST" action="<?= url("/usuario/salvar"); ?>" class="form-ajax needs-validation" autocomplete="off" novalidate ajax-close-modal="true" ajax-reset-form="true" ajax-render="#tableUsuarios" ajax-alert="#alert">
                 <div class="modal-body">
                     <div class="row">
+
+                        <input type="text" name="id" value="" hidden readonly>
 
                         <div class="col-lg-6 mb-3">
                             <label for="usuario">Usuário:</label>

@@ -2,8 +2,11 @@
 
 namespace Source\Controller;
 
+use DateTime;
 use Exception;
 use Source\DAO\UsuarioDAO;
+use Source\Entity\EntityManagerFactory;
+use Source\Entity\Usuario;
 
 /**
  * Description of UsuarioController
@@ -60,11 +63,36 @@ class UsuarioController extends Controller
     public function salvar(array $data): void
     {
         try {
-            $this->responseJson([
-                "nome" => $data["usuario"]
+            $usuario = new Usuario();
+
+            $usuario->setUsuario($data["usuario"]);
+            $usuario->setSenha(md5($data["senha"]));
+            $usuario->setNomeUsuario($data["nome_usuario"]);
+            $usuario->setStatus($data["status"]);
+            $usuario->setDataModificacao(new DateTime());
+
+            if ($data["id"] == "") {
+                $usuario->setDataCriacao(new DateTime());
+                UsuarioDAO::salvar($usuario);
+                $this->responseJson(false, "Usuário cadastrado com sucesso!", $this->renderTableUsuarios());
+            } else {
+                $usuario->setId($data["id"]);
+                $usuario->setDataModificacao(new DateTime());
+            }
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage());
+        }
+    }
+
+    private function renderTableUsuarios(): string
+    {
+        try {
+            $listaUsuarios = UsuarioDAO::listaUsuarios("");
+            return $this->renderView("usuario/_includes/_table-usuarios", [
+                "listaUsuarios" => $listaUsuarios
             ]);
         } catch (Exception $e) {
-            //throw $th;
+            return "";
         }
     }
 }

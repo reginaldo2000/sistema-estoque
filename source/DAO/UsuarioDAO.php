@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Source\Entity\EntityManagerFactory;
 use Source\Entity\Usuario;
 
-class UsuarioDAO extends EntityManagerFactory
+class UsuarioDAO 
 {
 
     public function __construct()
@@ -37,6 +37,20 @@ class UsuarioDAO extends EntityManagerFactory
             return $listaUsuarios;
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * @param Usuario $usuario
+     * @return void
+     */
+    public static function salvar(Usuario $usuario): void {
+        try {
+            $em = EntityManagerFactory::getEntityManager();
+            $em->persist($usuario);
+            $em->flush();
+        } catch(Exception $e) {
+            throw new Exception("Erro durante tentativa de salvar um novo usuário! {$e->getMessage()}", 500);
         }
     }
 }
