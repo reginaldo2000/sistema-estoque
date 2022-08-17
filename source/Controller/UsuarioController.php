@@ -64,7 +64,6 @@ class UsuarioController extends Controller
     {
         try {
             $usuario = new Usuario();
-
             $usuario->setUsuario($data["usuario"]);
             $usuario->setSenha(md5($data["senha"]));
             $usuario->setNomeUsuario($data["nome_usuario"]);
@@ -73,14 +72,27 @@ class UsuarioController extends Controller
 
             if ($data["id"] == "") {
                 $usuario->setDataCriacao(new DateTime());
+
                 UsuarioDAO::salvar($usuario);
                 $this->responseJson(false, "Usuário cadastrado com sucesso!", $this->renderTableUsuarios());
             } else {
                 $usuario->setId($data["id"]);
-                $usuario->setDataModificacao(new DateTime());
+                UsuarioDAO::atualizar($usuario);
+                $this->responseJson(false, "Usuário atualizado com sucesso!", $this->renderTableUsuarios());
             }
         } catch (Exception $e) {
             $this->responseJson(true, $e->getMessage());
+        }
+    }
+
+    public function getDadosUsuario(array $data): void
+    {
+        try {
+            $id = $data["id"];
+            $usuario = UsuarioDAO::getUsuarioById($id);
+            echo json_encode($usuario->toArray(), JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            return;
         }
     }
 

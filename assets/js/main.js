@@ -47,6 +47,7 @@
                         ajaxAlerta(dados.erro, ajaxAlert, dados.message);
                     }
 
+                    eventEdit();
                     ajaxFecharModalLoading(600);
                     console.log(dados);
                 }).catch(erro => {
@@ -54,16 +55,43 @@
                     console.log("erro");
                     console.log(erro);
                 });
+
             }
         }, false)
     })
 })()
 
+const eventEdit = () => {
+    const dataEdit = document.querySelectorAll("[ajax-edit]");
+    dataEdit.forEach(edit => {
+        edit.addEventListener("click", () => {
+            const urlRequest = edit.getAttribute("ajax-action");
+            fetch(urlRequest)
+                .then(response => {
+                    return response.json();
+                })
+                .then(object => {
+                    Object.keys(object).forEach(seletor => {
+                        let elemento = document.getElementById(seletor);
+                        if (elemento != null) {
+                            elemento.value = object[seletor];
+                        }
+
+                        const modalEdit = document.querySelector("[ajax-edit]").getAttribute("ajax-edit");
+                        $(modalEdit).modal("show");
+                    });
+                });
+        });
+    });
+};
+
+eventEdit();
+
 const ajaxAlerta = (erro, seletor, message) => {
     const alert = document.querySelector(seletor);
     let nomeClass = erro ? "alert-danger" : "alert-success";
     alert.removeAttribute("class");
-    alert.classList.add(nomeClass, "alert", "fade", "show");
+    alert.classList.add("alert", nomeClass, "alert-dismissible", "fade", "show");
     alert.children[0].innerHTML = message;
     alert.removeAttribute("hidden");
 };
@@ -78,6 +106,28 @@ const ajaxFecharModalLoading = timeSleep => {
     }, timeSleep);
 };
 
-document.querySelector(".alert button").addEventListener("click", () => {
-    $(this).parent().addClass("hidden");
+const listAlerts = document.querySelectorAll(".alert .btn-close");
+listAlerts.forEach(botao => {
+    botao.addEventListener("click", () => {
+        botao.parentElement.setAttribute("hidden", true);
+    });
+})
+
+const modalReset = document.querySelectorAll("[data-bs-toggle='modal']");
+modalReset.forEach(modal => {
+    modal.addEventListener("click", () => {
+        const modalId = modal.getAttribute("data-bs-target");
+        const formulario = document.querySelector(`${modalId} form`);
+        formulario.reset();
+    })
 });
+
+
+/*document.querySelectorAll("[ajax-hidden]").forEach(item => {
+    const seletor = item.getAttribute("ajax-hidden");
+    if (document.querySelector(seletor).value != "") {
+        item.setAttribute("hidden", "true");
+    } else {
+        item.removeAttribute("hidden");
+    }
+});*/

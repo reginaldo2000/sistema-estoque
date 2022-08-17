@@ -9,14 +9,14 @@
                 <div class="modal-body">
                     <div class="row">
 
-                        <input type="text" name="id" value="" hidden readonly>
+                        <input type="text" name="id" id="id" value="" hidden readonly>
 
                         <div class="col-lg-6 mb-3">
                             <label for="usuario">Usuário:</label>
                             <input type="text" name="usuario" id="usuario" class="form-control" required>
                         </div>
 
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-6 mb-3" ajax-hidden="#id">
                             <label for="senha">Senha:</label>
                             <input type="password" name="senha" id="senha" class="form-control" required>
                         </div>

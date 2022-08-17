@@ -92,9 +92,9 @@
 }
 
 .conteudo_principal {
-    max-width: calc(100% - 340px);
+    max-width: calc(100% - 290px);
     margin-top: 86px;
-    margin-left: 320px;
+    margin-left: 270px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 0px 1px 2px #555;
@@ -120,7 +120,7 @@
 .menu_principal {
     position: fixed;
     z-index: 900;
-    width: 300px;
+    width: 250px;
     background-color: #22222f;
     height: 100vh;
     top: 70px;
@@ -141,7 +141,7 @@
     width: 100%;
     height: 36px;
     align-items: center;
-    padding: 0 16px;
+    padding: 20px 20px;
 }
 
 .menu_principal ul li a:hover {
@@ -150,4 +150,49 @@
 
 .fs-18 {
     font-size: 18px !important;
+}
+
+
+/* icones */
+
+.icon-entradas::before {
+    content: '\f06b';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-saidas::before {
+    content: '\f146';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-produtos::before {
+    content: '\f10a';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-estoque::before {
+    content: '\f1b3';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-usuarios::before {
+    content: '\f0c0';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-dashboard::before {
+    content: '\f0e4';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
 }

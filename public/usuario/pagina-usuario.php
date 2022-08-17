@@ -1,7 +1,7 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 <?php $this->insert("usuario/_includes/_modal-salvar-usuario"); ?>
 
-<div id="alert" class="alert" role="alert" hidden>
+<div id="alert" class="alert alert-dismissible" role="alert" hidden>
     <span></span>
     <button type="button" class="btn-close" aria-label="Close"></button>
 </div>
@@ -38,7 +38,7 @@
             </tr>
         </thead>
         <tbody id="tableUsuarios">
-            <?php include __DIR__."/_includes/_table-usuarios.php"; ?>
+            <?php include __DIR__ . "/_includes/_table-usuarios.php"; ?>
         </tbody>
     </table>
 </div>

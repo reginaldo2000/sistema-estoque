@@ -119,4 +119,18 @@ class Usuario
     {
         $this->dataModificacao = $dataModificacao;
     }
+
+    public function toArray(): array
+    {
+        $array = [
+            "id" => $this->id,
+            "usuario" => $this->usuario,
+            "senha" => $this->senha,
+            "nomeUsuario" => $this->nomeUsuario,
+            "status" => $this->status,
+            "dataCriacao" => $this->dataCriacao,
+            "dataModificacao" => $this->dataModificacao
+        ];
+        return $array;
+    }
 }

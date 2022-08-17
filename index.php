@@ -12,6 +12,7 @@ $route->get("/dashboard", "HomeController:paginaInicial");
 
 $route->namespace("Source\Controller")->group("usuario");
 $route->get("/lista", "UsuarioController:paginaUsuario");
+$route->get("/dados-usuario/{id}", "UsuarioController:getDadosUsuario");
 
 $route->post("/autenticar", "UsuarioController:autenticar");
 $route->post("/salvar", "UsuarioController:salvar");

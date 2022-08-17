@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?= asset("/css/style.css"); ?>">
     <link rel="stylesheet" href="<?= asset("/ajax-form/ajax-form.css"); ?>">
     <link rel="stylesheet" href="<?= asset("/font-awesome-4.7.0/css/font-awesome.min.css"); ?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body class="fundo_app">
@@ -21,22 +22,22 @@
     <nav class="menu_principal">
         <ul>
             <li>
-                <a href="#"><i class="fa fa-dashboard"></i> &nbsp;Dashboard</a>
+                <a href="#" class="icon-dashboard">Dashboard</a>
             </li>
             <li>
-                <a href="<?= url("/usuario/lista"); ?>"><i class="fa fa-users"></i> &nbsp;Usuários</a>
+                <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios">Usuários</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-tablet"></i> &nbsp;Produtos</a>
+                <a href="#" class="icon-produtos">Produtos</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-plus-square"></i> &nbsp;Entradas</a>
+                <a href="#" class="icon-entradas">Entradas</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-minus-square"></i> &nbsp;Saídas</a>
+                <a href="#" class="icon-saidas">Saídas</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-cubes"></i> &nbsp;Estoque</a>
+                <a href="#" class="icon-estoque">Estoque</a>
             </li>
         </ul>
     </nav>
@@ -59,10 +60,9 @@
     </div>
 
     <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
+    <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
-    <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
-
 </body>
 
 </html>
