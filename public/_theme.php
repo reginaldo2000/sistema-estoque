@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?= url("/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"); ?>">
     <link rel="stylesheet" href="<?= url("/vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map"); ?>">
     <link rel="stylesheet" href="<?= asset("/css/style.css"); ?>">
+    <link rel="stylesheet" href="<?= asset("/ajax-form/ajax-form.css"); ?>">
     <link rel="stylesheet" href="<?= asset("/font-awesome-4.7.0/css/font-awesome.min.css"); ?>">
 </head>
 
@@ -51,8 +52,10 @@
     </main>
 
     <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
-    <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js.map"); ?>"></script>
+    <script src="<?= asset("/js/main.js"); ?>"></script>
+    <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
     <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
+    
 </body>
 
 </html>

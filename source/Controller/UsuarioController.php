@@ -4,8 +4,6 @@ namespace Source\Controller;
 
 use Exception;
 use Source\DAO\UsuarioDAO;
-use Source\Entity\EntityManagerFactory;
-use Source\Entity\Usuario;
 
 /**
  * Description of UsuarioController
@@ -56,6 +54,17 @@ class UsuarioController extends Controller
             ]);
         } catch (Exception $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public function salvar(array $data): void
+    {
+        try {
+            $this->responseJson([
+                "nome" => $data["usuario"]
+            ]);
+        } catch (Exception $e) {
+            //throw $th;
         }
     }
 }

@@ -1,4 +1,15 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
+<?php $this->insert("usuario/_includes/_modais/_modal-salvar-usuario"); ?>
+
+<div class="row">
+    <div class="col-lg-12">
+
+    </div>
+</div>
+
+<a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalSalvarUsuario">
+    <i class="fa fa-plus"></i> Novo Usuário
+</a>
 
 <div class="card card-footer">
     <form method="GET" action="" autocomplete="off">
