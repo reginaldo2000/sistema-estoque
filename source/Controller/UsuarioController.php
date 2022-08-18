@@ -19,6 +19,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../public");
+        $this->verificaUsuarioAutenticado();
     }
 
     public function paginaUsuario(array $data): void

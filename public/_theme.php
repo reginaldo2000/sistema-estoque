@@ -22,13 +22,13 @@
     <nav class="menu_principal">
         <ul>
             <li>
-                <a href="#" class="icon-dashboard">Dashboard</a>
+                <a href="<?= url("/dashboard"); ?>" class="icon-dashboard">Dashboard</a>
             </li>
             <li>
                 <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios">Usuários</a>
             </li>
             <li>
-                <a href="#" class="icon-produtos">Produtos</a>
+                <a href="<?= url("/produto/lista"); ?>" class="icon-produtos">Produtos</a>
             </li>
             <li>
                 <a href="#" class="icon-entradas">Entradas</a>

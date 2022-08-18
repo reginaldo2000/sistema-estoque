@@ -47,3 +47,21 @@ function session_set(string $key, $value): void
 {
     $_SESSION[$key] = $value;
 }
+
+function setMessage(string $message, string $type): void
+{
+    $_SESSION["msg_dialog"] = $message;
+    $_SESSION["type_dialog"] = $type;
+}
+
+function showMessage(): void
+{
+    if (isset($_SESSION["msg_dialog"])) {
+        echo '<div class="alert ' . $_SESSION["type_dialog"] . ' alert-dismissible fade show" role="alert">
+            ' . $_SESSION["msg_dialog"] . '
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+
+        unset($_SESSION["msg_dialog"]);
+    }
+}

@@ -17,6 +17,11 @@ $route->post("/autenticar", "AuthController:autenticar");
 $route->post("/salvar", "UsuarioController:salvar");
 $route->delete("/excluir", "UsuarioController:excluirUsuario");
 
+$route->namespace("Source\Controller")->group("produto");
+$route->get("/lista", "ProdutoController:paginaProdutos");
+$route->get("/novo", "ProdutoController:paginaNovoProduto");
+$route->post("/salvar", "ProdutoController:salvar");
+
 /**
  * Rotas de tratamento de erros
  */

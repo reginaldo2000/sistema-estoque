@@ -11,26 +11,30 @@ use Doctrine\ORM\ORMSetup;
  *
  * @author Reginaldo
  */
-class EntityManagerFactory {
+class EntityManagerFactory
+{
 
     private static $isDevMode = true;
     private static $proxyDir = null;
     private static $cache = null;
     private static $useSimpleAnnotationReader = false;
+    private static $instance = null;
 
-    public static function getEntityManager(): EntityManagerInterface {
+    public static function getEntityManager(): EntityManagerInterface
+    {
         $config = ORMSetup::createAnnotationMetadataConfiguration(
-                        array(__DIR__ . "/../../source"),
-                        self::$isDevMode,
-                        self::$proxyDir,
-                        self::$cache,
-                        self::$useSimpleAnnotationReader
+            array(__DIR__ . "/../../source"),
+            self::$isDevMode,
+            self::$proxyDir,
+            self::$cache,
+            self::$useSimpleAnnotationReader
         );
         $conn = array(
             "url" => "mysql://root:@localhost/sistema_estoque"
         );
-
-        return EntityManager::create($conn, $config);
+        if (self::$instance == null) {
+            self::$instance = EntityManager::create($conn, $config);
+        }
+        return self::$instance;
     }
-
 }

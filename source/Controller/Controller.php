@@ -35,7 +35,15 @@ abstract class Controller
         echo $this->view->render($path, $params);
     }
 
-    public function renderView(string $path, array $params): string {
+    public function renderView(string $path, array $params): string
+    {
         return $this->view->render($path, $params);
+    }
+
+    public function verificaUsuarioAutenticado(): void
+    {
+        if (!isset(session()->usuario)) {
+            redirect("/");
+        }
     }
 }
