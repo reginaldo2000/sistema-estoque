@@ -4,7 +4,7 @@ namespace Source\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Source\Entity\Categoria;
+
 
 /**
  * @ORM\Entity
@@ -51,11 +51,6 @@ class Produto
     private float $estoque;
 
     /**
-     * @ORM\Column(name="unidade_medida", type="string", length=2)
-     */
-    private string $unidadeMedida;
-
-    /**
      * @ORM\Column(name="data_criacao", type="datetime")
      */
     private DateTime $dataCriacao;
@@ -69,6 +64,12 @@ class Produto
      * @ORM\ManyToOne(targetEntity="Categoria")
      */
     private Categoria $categoria;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UnidadeMedida")
+     * @ORM\JoinColumn(name="unidade_medida_id", referencedColumnName="id")
+     */
+    private UnidadeMedida $unidadeMedida;
 
     public function __construct()
     {
@@ -94,6 +95,16 @@ class Produto
     public function setCategoria(Categoria $categoria): void
     {
         $this->categoria = $categoria;
+    }
+
+    public function getUnidadeMedida(): UnidadeMedida
+    {
+        return $this->unidadeMedida;
+    }
+
+    public function setUnidadeMedida(UnidadeMedida $unidadeMedida): void
+    {
+        $this->unidadeMedida = $unidadeMedida;
     }
 
     public function getNome(): string
@@ -154,16 +165,6 @@ class Produto
     public function setEstoque(float $estoque): void
     {
         $this->estoque = $estoque;
-    }
-
-    public function getUnidadeMedida(): string
-    {
-        return $this->unidadeMedida;
-    }
-
-    public function setUnidadeMedida(string $unidadeMedida): void
-    {
-        $this->unidadeMedida = $unidadeMedida;
     }
 
     public function getDataCriacao(): DateTime

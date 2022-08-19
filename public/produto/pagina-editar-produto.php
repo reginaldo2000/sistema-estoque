@@ -1,7 +1,5 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 
-<?php showMessage(); ?>
-
 <form method="POST" action="<?= url("/produto/salvar"); ?>" autocomplete="off" class="needs-validation" novalidate>
     <div class="row">
 
@@ -52,14 +50,14 @@
 
         <div class="col-lg-4 mb-3">
             <div class="form-floating">
-                <input type="text" name="preco_entrada" id="precoEntrada" class="form-control" value="0,00" required>
+                <input type="text" name="preco_entrada" id="precoEntrada" class="form-control" pattern="[0-9]+$" value="<?= formataMoeda($produto->getPrecoEntrada()); ?>" required>
                 <label for="precoEntrada">Preço de Entrada:</label>
             </div>
         </div>
 
         <div class="col-lg-4 mb-3">
             <div class="form-floating">
-                <input type="text" name="preco_saida" id="precoSaida" class="form-control" value="0,00" required>
+                <input type="text" name="preco_saida" id="precoSaida" class="form-control" value="<?= formataMoeda($produto->getPrecoSaida()); ?>" required>
                 <label for="precoSaida">Preço de Saída:</label>
             </div>
         </div>
@@ -70,14 +68,14 @@
 
         <div class="col-lg-4 mb-3">
             <div class="form-floating">
-                <input type="text" name="estoque" id="estoque" class="form-control" value="0,000" required>
+                <input type="text" name="estoque" id="estoque" class="form-control" value="<?= $produto->getEstoque(); ?>" required>
                 <label for="estoque">Estoque:</label>
             </div>
         </div>
 
         <div class="col-lg-4 mb-3">
             <div class="form-floating">
-                <select name="unidade_medida_id" id="unidadeMedida" class="form-control" required>
+                <select name="unidade_medida" id="unidadeMedida" class="form-control" required>
                     <?php foreach ($listaUnidadesMedida as $unidade) : ?>
                         <option value="<?= $unidade->getId(); ?>"><?= $unidade->getNome(); ?></option>
                     <?php endforeach; ?>

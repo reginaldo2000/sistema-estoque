@@ -21,6 +21,7 @@ $route->namespace("Source\Controller")->group("produto");
 $route->get("/lista", "ProdutoController:paginaProdutos");
 $route->get("/novo", "ProdutoController:paginaNovoProduto");
 $route->post("/salvar", "ProdutoController:salvar");
+$route->get("/editar/{id}", "ProdutoController:paginaEditarProduto");
 
 /**
  * Rotas de tratamento de erros

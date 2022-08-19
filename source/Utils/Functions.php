@@ -65,3 +65,8 @@ function showMessage(): void
         unset($_SESSION["msg_dialog"]);
     }
 }
+
+function formataMoeda(float $valor): string
+{
+    return number_format($valor, 2, ",", ".");
+}
