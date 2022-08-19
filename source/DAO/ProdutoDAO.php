@@ -2,7 +2,6 @@
 
 namespace Source\DAO;
 
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Source\Entity\EntityManagerFactory;
 use Source\Entity\Produto;
