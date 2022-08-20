@@ -19,8 +19,10 @@ class ProdutoController extends Controller
 
     public function paginaProdutos(): void
     {
+        $listaProdutos = ProdutoDAO::listarProdutos("");
         $this->responseView("produto/pagina-produto", [
-            "nomePagina" => "Lista de Produtos"
+            "nomePagina" => "Lista de Produtos",
+            "listaProdutos" => $listaProdutos
         ]);
     }
 
@@ -51,18 +53,27 @@ class ProdutoController extends Controller
                 redirect("/oops/400");
             }
             $produto = new Produto();
+            $produto->setId((isset($data["id"]) ? $data["id"] : null));
             $produto->setCategoria($categoria);
             $produto->setNome($data["nome"]);
             $produto->setCodigoProduto($data["codigo_produto"]);
             $produto->setCodigoBarras($data["codigo_barras"]);
-            $produto->setPrecoEntrada(str_replace(",", ".", $data["preco_entrada"]));
-            $produto->setPrecoSaida(str_replace(",", ".", $data["preco_saida"]));
+            $produto->setPrecoEntrada(formataParaFloat($data["preco_entrada"]));
+            $produto->setPrecoSaida(formataParaFloat($data["preco_saida"]));
             $produto->setEstoque(str_replace(",", ".", $data["estoque"]));
             $produto->setUnidadeMedida($unidadeMedida);
-            ProdutoDAO::salvar($produto);
 
-            setMessage("Produto cadastrado com sucesso!", "alert-success");
-            redirect("/produto/novo");
+            var_dump($produto);
+            // exit;
+            if (empty($produto->getId())) {
+                ProdutoDAO::salvar($produto);
+                setMessage("Produto cadastrado com sucesso!", "alert-success");
+                redirect("/produto/novo");
+            } else {
+                ProdutoDAO::atualizar($produto);
+                setMessage("Produto atualizado com sucesso!", "alert-success");
+                redirect("/produto/editar/{$produto->getId()}");
+            }
         } catch (Exception $e) {
             setMessage($e->getMessage(), "alert-danger");
             redirect("/produto/lista");
