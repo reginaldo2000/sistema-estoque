@@ -5,13 +5,11 @@ namespace Source\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table(name="produtos")
  */
-class Produto
-{
+class Produto {
 
     /**
      * @ORM\Id
@@ -71,120 +69,111 @@ class Produto
      */
     private UnidadeMedida $unidadeMedida;
 
-    public function __construct()
-    {
+    /**
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     */
+    private Usuario $usuario;
+
+    public function __construct() {
         $this->dataCriacao = new DateTime();
         $this->dataModificacao = new DateTime();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId(?int $id): void
-    {
+    public function setId(?int $id): void {
         $this->id = $id;
     }
 
-    public function getCategoria(): Categoria
-    {
+    public function getCategoria(): Categoria {
         return $this->categoria;
     }
 
-    public function setCategoria(Categoria $categoria): void
-    {
+    public function setCategoria(Categoria $categoria): void {
         $this->categoria = $categoria;
     }
 
-    public function getUnidadeMedida(): UnidadeMedida
-    {
+    public function getUnidadeMedida(): UnidadeMedida {
         return $this->unidadeMedida;
     }
 
-    public function setUnidadeMedida(UnidadeMedida $unidadeMedida): void
-    {
+    public function setUnidadeMedida(UnidadeMedida $unidadeMedida): void {
         $this->unidadeMedida = $unidadeMedida;
     }
 
-    public function getNome(): string
-    {
+    public function getNome(): string {
         return $this->nome;
     }
 
-    public function setNome(string $nome): void
-    {
+    public function setNome(string $nome): void {
         $this->nome = $nome;
     }
 
-    public function getCodigoProduto(): string
-    {
+    public function getCodigoProduto(): string {
         return $this->codigoProduto;
     }
 
-    public function setCodigoProduto(string $codigoProduto): void
-    {
+    public function setCodigoProduto(string $codigoProduto): void {
         $this->codigoProduto = $codigoProduto;
     }
 
-    public function getCodigoBarras(): string
-    {
+    public function getCodigoBarras(): string {
         return $this->codigoBarras;
     }
 
-    public function setCodigoBarras(string $codigoBarras): void
-    {
+    public function setCodigoBarras(string $codigoBarras): void {
         $this->codigoBarras = $codigoBarras;
     }
 
-    public function getPrecoEntrada(): float
-    {
+    public function getPrecoEntrada(): float {
         return $this->precoEntrada;
     }
 
-    public function setPrecoEntrada(float $precoEntrada): void
-    {
+    public function setPrecoEntrada(float $precoEntrada): void {
         $this->precoEntrada = $precoEntrada;
     }
 
-    public function getPrecoSaida(): float
-    {
+    public function getPrecoSaida(): float {
         return $this->precoSaida;
     }
 
-    public function setPrecoSaida(float $precoSaida): void
-    {
+    public function setPrecoSaida(float $precoSaida): void {
         $this->precoSaida = $precoSaida;
     }
 
-    public function getEstoque(): float
-    {
+    public function getEstoque(): float {
         return $this->estoque;
     }
 
-    public function setEstoque(float $estoque): void
-    {
+    public function setEstoque(float $estoque): void {
         $this->estoque = $estoque;
     }
 
-    public function getDataCriacao(): DateTime
-    {
+    public function getDataCriacao(): DateTime {
         return $this->dataCriacao;
     }
 
-    public function setDataCriacao(DateTime $dataCriacao): void
-    {
+    public function setDataCriacao(DateTime $dataCriacao): void {
         $this->dataCriacao = $dataCriacao;
     }
 
-    public function getDataModificacao(): DateTime
-    {
+    public function getDataModificacao(): DateTime {
         return $this->dataModificacao;
     }
 
-    public function setDataModificacao(DateTime $dataModificacao): void
-    {
+    public function setDataModificacao(DateTime $dataModificacao): void {
         $this->dataModificacao = $dataModificacao;
+    }
+
+    public function getUsuario(): Usuario {
+        return $this->usuario;
+    }
+
+    public function setUsuario(Usuario $usuario): void {
+        $this->usuario = $usuario;
     }
 
 }

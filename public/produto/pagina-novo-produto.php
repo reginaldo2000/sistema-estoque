@@ -1,6 +1,10 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 
-<?php showMessage(); ?>
+<div class="row">
+    <div class="col-lg-8">
+        <?php showMessage(); ?>
+    </div>
+</div>
 
 <form method="POST" action="<?= url("/produto/salvar"); ?>" autocomplete="off" class="needs-validation" novalidate>
     <div class="row">

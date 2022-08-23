@@ -23,6 +23,7 @@ $route->get("/novo", "ProdutoController:paginaNovoProduto");
 $route->post("/salvar", "ProdutoController:salvar");
 $route->get("/editar/{id}", "ProdutoController:paginaEditarProduto");
 $route->put("/atualizar/{id}", "ProdutoController:salvar");
+$route->get("/visualizar/{id}", "ProdutoController:visualizar");
 
 /**
  * Rotas de tratamento de erros

@@ -19,6 +19,12 @@ abstract class Controller
         $this->view = new Engine($path);
     }
 
+    /**
+     * @param bool $erro
+     * @param string $message
+     * @param string $render
+     * @return void
+     */
     public function responseJson(bool $erro, string $message = "", string $render = ""): void
     {
         $dados = [
