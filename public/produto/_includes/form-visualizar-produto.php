@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-lg-6 mb-3">
         <labe>Código do Produto:</labe>
-        <span class="form-control"><?= $produto->getCodigoProduto(); ?></span>
+        <span class="form-control"><?= ($produto->getCodigoProduto() != "" ? $produto->getCodigoProduto() : "Não informado"); ?></span>
     </div>
     <div class="col-lg-6 mb-3">
         <labe>Código de Barras:</labe>
-        <span class="form-control"><?= $produto->getCodigoBarras(); ?></span>
+        <span class="form-control"><?= ($produto->getCodigoBarras() != "" ? $produto->getCodigoBarras() : "Não informado"); ?></span>
     </div>
     <div class="col-lg-12 mb-3">
         <labe>Nome:</labe>
