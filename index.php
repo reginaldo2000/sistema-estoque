@@ -8,6 +8,7 @@ $route = new Router(MAIN_URL);
 
 $route->namespace("Source\Controller");
 $route->get("/", "AuthController:paginaLogin");
+$route->get("/sair", "AuthController:sair");
 $route->get("/dashboard", "HomeController:paginaInicial");
 
 $route->namespace("Source\Controller")->group("usuario");

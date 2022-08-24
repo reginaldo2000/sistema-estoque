@@ -22,22 +22,25 @@
     <nav class="menu_principal">
         <ul>
             <li>
-                <a href="<?= url("/dashboard"); ?>" class="icon-dashboard">Dashboard</a>
+                <a href="<?= url("/dashboard"); ?>" class="icon-dashboard <?= ($nomePagina == "Dashboard" ? "active-menu" : ""); ?>">Dashboard</a>
             </li>
             <li>
-                <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios">Usuários</a>
+                <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios <?= ($nomePagina == "Lista de Usuários" ? "active-menu" : ""); ?>">Usuários</a>
             </li>
             <li>
-                <a href="<?= url("/produto/lista"); ?>" class="icon-produtos">Produtos</a>
+                <a href="<?= url("/produto/lista"); ?>" class="icon-produtos <?= ($nomePagina == "Lista de Produtos" ? "active-menu" : ""); ?>">Produtos</a>
             </li>
             <li>
-                <a href="#" class="icon-entradas">Entradas</a>
+                <a href="<?= url("/entrada/lista"); ?>" class="icon-entradas <?= ($nomePagina == "Registrar Entrada" ? "active-menu" : ""); ?>">Entradas</a>
             </li>
             <li>
                 <a href="#" class="icon-saidas">Saídas</a>
             </li>
             <li>
                 <a href="#" class="icon-estoque">Estoque</a>
+            </li>
+            <li>
+                <a href="<?= url("/sair"); ?>" class="icon-sair">Sair</a>
             </li>
         </ul>
     </nav>
@@ -63,7 +66,7 @@
     <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
-    
+
     <?= $this->section("scripts"); ?>
 </body>
 
