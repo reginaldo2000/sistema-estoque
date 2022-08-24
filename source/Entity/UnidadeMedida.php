@@ -3,13 +3,13 @@
 namespace Source\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="unidade_medidas")
  */
-class UnidadeMedida
-{
+class UnidadeMedida {
 
     /**
      * @ORM\Id
@@ -23,28 +23,24 @@ class UnidadeMedida
      */
     private string $nome;
 
-    public function __construct()
-    {
+    public function __construct() {
         
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id): void
-    {
+    public function setId($id): void {
         $this->id = $id;
     }
 
-    public function getNome(): string
-    {
+    public function getNome(): string {
         return $this->nome;
     }
 
-    public function setNome(string $nome): void
-    {
+    public function setNome(string $nome): void {
         $this->nome = $nome;
     }
+
 }

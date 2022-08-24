@@ -1,18 +1,22 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 
-<?php showMessage(); ?>
+<div class="row">
+    <div class="col-lg-8">
+        <?php showMessage(); ?>
+    </div>
+</div>
 
 <form method="POST" action="<?= url("/produto/salvar"); ?>" autocomplete="off" class="needs-validation" novalidate>
     <div class="row">
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="form-floating">
                 <input type="text" name="codigo_produto" id="codigoProduto" class="form-control">
                 <label for="codigoProduto">Código do Produto:</label>
             </div>
         </div>
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="form-floating">
                 <input type="text" name="codigo_barras" id="codigoBarras" class="form-control">
                 <label for="codigoBarras">Código de Barras:</label>
@@ -23,7 +27,7 @@
 
     <div class="row">
 
-        <div class="col-lg-8 mb-3">
+        <div class="col-lg-8 col-md-12 mb-3">
             <div class="form-floating">
                 <input type="text" name="nome" id="nome" class="form-control" required>
                 <label for="nome">Nome do Produto:</label>
@@ -34,7 +38,7 @@
 
     <div class="row">
 
-        <div class="col-lg-8 mb-3">
+        <div class="col-lg-8 col-md-12 mb-3">
             <div class="form-floating">
                 <select name="categoria_id" id="categoria" class="form-control" required>
                     <option value="">Selecione uma...</option>
@@ -50,14 +54,14 @@
 
     <div class="row">
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="form-floating">
                 <input type="text" name="preco_entrada" id="precoEntrada" class="form-control" value="0,00" required>
                 <label for="precoEntrada">Preço de Entrada:</label>
             </div>
         </div>
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="form-floating">
                 <input type="text" name="preco_saida" id="precoSaida" class="form-control" value="0,00" required>
                 <label for="precoSaida">Preço de Saída:</label>

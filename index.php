@@ -17,11 +17,18 @@ $route->post("/autenticar", "AuthController:autenticar");
 $route->post("/salvar", "UsuarioController:salvar");
 $route->delete("/excluir", "UsuarioController:excluirUsuario");
 
+
 $route->namespace("Source\Controller")->group("produto");
 $route->get("/lista", "ProdutoController:paginaProdutos");
 $route->get("/novo", "ProdutoController:paginaNovoProduto");
 $route->post("/salvar", "ProdutoController:salvar");
 $route->get("/editar/{id}", "ProdutoController:paginaEditarProduto");
+$route->put("/atualizar/{id}", "ProdutoController:salvar");
+$route->get("/visualizar/{id}", "ProdutoController:visualizar");
+
+
+$route->namespace("Source\Controller")->group("entrada");
+$route->get("/lista", "EntradaController:paginaEntrada");
 
 /**
  * Rotas de tratamento de erros

@@ -6,26 +6,24 @@ use Exception;
 use Source\DAO\CategoriaDAO;
 use Source\DAO\ProdutoDAO;
 use Source\DAO\UnidadeMedidaDAO;
+use Source\DAO\UsuarioDAO;
 use Source\Entity\Produto;
-use Source\Entity\UnidadeMedida;
 
-class ProdutoController extends Controller
-{
+class ProdutoController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct(__DIR__ . "/../../public");
     }
 
-    public function paginaProdutos(): void
-    {
+    public function paginaProdutos(): void {
+        $listaProdutos = ProdutoDAO::listarProdutos("");
         $this->responseView("produto/pagina-produto", [
-            "nomePagina" => "Lista de Produtos"
+            "nomePagina" => "Lista de Produtos",
+            "listaProdutos" => $listaProdutos
         ]);
     }
 
-    public function paginaNovoProduto(array $data): void
-    {
+    public function paginaNovoProduto(array $data): void {
         try {
             $listaCategorias = CategoriaDAO::listar();
             $listaUnidadesMedida = UnidadeMedidaDAO::listar();
@@ -39,8 +37,7 @@ class ProdutoController extends Controller
         }
     }
 
-    public function salvar(array $data): void
-    {
+    public function salvar(array $data): void {
         try {
             $categoria = CategoriaDAO::get($data["categoria_id"]);
             if (empty($categoria)) {
@@ -50,27 +47,38 @@ class ProdutoController extends Controller
             if (empty($unidadeMedida)) {
                 redirect("/oops/400");
             }
+            $usuario = UsuarioDAO::getUsuarioById(session()->usuario->getId());
+            if (empty($usuario)) {
+                throw new Exception("Usuário não informado", 400);
+            }
             $produto = new Produto();
+            $produto->setId((isset($data["id"]) ? $data["id"] : null));
             $produto->setCategoria($categoria);
             $produto->setNome($data["nome"]);
             $produto->setCodigoProduto($data["codigo_produto"]);
             $produto->setCodigoBarras($data["codigo_barras"]);
-            $produto->setPrecoEntrada(str_replace(",", ".", $data["preco_entrada"]));
-            $produto->setPrecoSaida(str_replace(",", ".", $data["preco_saida"]));
+            $produto->setPrecoEntrada(formataParaFloat($data["preco_entrada"]));
+            $produto->setPrecoSaida(formataParaFloat($data["preco_saida"]));
             $produto->setEstoque(str_replace(",", ".", $data["estoque"]));
             $produto->setUnidadeMedida($unidadeMedida);
-            ProdutoDAO::salvar($produto);
+            $produto->setUsuario($usuario);
 
-            setMessage("Produto cadastrado com sucesso!", "alert-success");
-            redirect("/produto/novo");
+            if (empty($produto->getId())) {
+                ProdutoDAO::salvar($produto);
+                setMessage("Produto cadastrado com sucesso!", "alert-success");
+                redirect("/produto/novo");
+            } else {
+                ProdutoDAO::atualizar($produto);
+                setMessage("Produto atualizado com sucesso!", "alert-success");
+                redirect("/produto/editar/{$produto->getId()}");
+            }
         } catch (Exception $e) {
             setMessage($e->getMessage(), "alert-danger");
             redirect("/produto/lista");
         }
     }
 
-    public function paginaEditarProduto(array $data): void
-    {
+    public function paginaEditarProduto(array $data): void {
         try {
             $produto = null;
             if (isset($data["id"])) {
@@ -93,4 +101,21 @@ class ProdutoController extends Controller
             redirect("/oops/{$e->getCode()}");
         }
     }
+
+    public function visualizar(array $data) {
+        try {
+            $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+            if (!$id) {
+                throw new Exception("Id inválido!", 400);
+            }
+            $produto = ProdutoDAO::get($id);
+            $render = $this->renderView("produto/_includes/form-visualizar-produto", [
+                "produto" => $produto
+            ]);
+            $this->responseJson(false, "Produto encontrado!", $render);
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage());
+        }
+    }
+
 }

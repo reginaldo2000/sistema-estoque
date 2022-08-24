@@ -70,3 +70,16 @@ function formataMoeda(float $valor): string
 {
     return number_format($valor, 2, ",", ".");
 }
+
+function formataParaFloat(string $valor): float {
+    return str_replace(",", ".", str_replace(".", "", $valor));
+}
+ 
+
+function filterParams(array $params): array {
+    // $arrayKeys = array_keys($params);
+    // foreach($arrayKeys as $key) {
+    //     $params[$key] = filter_va
+    // }
+    return [];
+}
