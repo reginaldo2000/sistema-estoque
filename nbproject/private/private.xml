@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/sistema-estoque/bin/doctrine</file>
+            <file>file:/C:/xampp/htdocs/sistema-estoque/source/Entity/UnidadeMedida.php</file>
+            <file>file:/C:/xampp/htdocs/sistema-estoque/source/Controller/ProdutoController.php</file>
             <file>file:/C:/xampp/htdocs/sistema-estoque/source/Entity/EntityManagerFactory.php</file>
-            <file>file:/C:/xampp/htdocs/sistema-estoque/composer.json</file>
-            <file>file:/C:/xampp/htdocs/sistema-estoque/index.php</file>
-            <file>file:/C:/xampp/htdocs/sistema-estoque/source/Controller/UsuarioController.php</file>
-            <file>file:/C:/xampp/htdocs/sistema-estoque/source/Controller/Controller.php</file>
+            <file>file:/C:/xampp/htdocs/sistema-estoque/source/DAO/ProdutoDAO.php</file>
         </group>
     </open-files>
 </project-private>

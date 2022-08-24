@@ -1,3 +1,5 @@
+const MAIN_URL = "http://localhost/sistema-estoque";
+
 const formataMoeda = element => {
     let valor = element.value.replaceAll(".", "");
     valor = valor.replace(",", "");
