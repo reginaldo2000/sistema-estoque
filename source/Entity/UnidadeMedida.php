@@ -27,9 +27,6 @@ class UnidadeMedida {
         
     }
 
-    public function init(): void {
-    }
-
     public function getId(): ?int {
         return $this->id;
     }
