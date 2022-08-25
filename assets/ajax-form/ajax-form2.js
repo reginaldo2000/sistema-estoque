@@ -15,7 +15,7 @@ ajaxActions.forEach(action => {
             if (key.includes(ajaxTarget.concat(":"))) {
                 key = key.replace(ajaxTarget.concat(":"), "")
                 let value = param.value
-                stringJson += `"${key}":"${value}"`;
+                stringJson += `"${key}":"${value}"`
             }
         })
 
@@ -26,6 +26,9 @@ ajaxActions.forEach(action => {
             url: urlRequest,
             data: jsonObject,
             success: function (response) {
+
+                console.log(response)
+
                 if (response.error) {
                     console.log(response)
                     return
@@ -34,8 +37,10 @@ ajaxActions.forEach(action => {
                     const alert = action.getAttribute("ajax-alert")
                     htmlMessageAlert(alert, response.message, response.messageType)
                 }
-                console.log(response)
 
+                if (response.object != null) {
+
+                }
             }
         })
     })
@@ -46,5 +51,5 @@ const htmlMessageAlert = (alert, message, type) => {
     const element = document.querySelector(alert)
     element.classList.add(type)
     element.removeAttribute("hidden")
-    document.querySelector(alert+" .message").innerHTML = message;
+    document.querySelector(alert + " .message").innerHTML = message;
 }

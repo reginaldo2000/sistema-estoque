@@ -30,9 +30,13 @@ class CategoriaController extends Controller
     {
         $categoria = new Categoria();
         $categoria->setNome($data["nome"]);
-        $em = EntityManagerFactory::getEntityManager();
-        $em->persist($categoria);
-        $em->flush();
+        CategoriaDAO::salvar($categoria);
         $this->responseJson(false, "categoria cadastrada!");
+    }
+
+    public function pesquisar(array $data): void {
+        $nomeCategoria = filter_var($data["nome"], FILTER_SANITIZE_SPECIAL_CHARS);
+        $listaCategorias = CategoriaDAO::listar($nomeCategoria);
+        $this->responseJson(false, "", "", "", $listaCategorias);
     }
 }
