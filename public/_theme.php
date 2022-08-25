@@ -65,7 +65,8 @@
     <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
     <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
     <script src="<?= asset("/js/main.js"); ?>"></script>
-    <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
+    
+    <script src="<?= asset("/ajax-form/ajax-form2.js"); ?>"></script>
 
     <?= $this->section("scripts"); ?>
 </body>

@@ -11,7 +11,7 @@
 
         <div class="col-lg-4 col-md-6 mb-3">
             <div class="form-floating">
-                <input type="text" name="codigo_produto" id="codigoProduto" class="form-control">
+                <input type="text" name="codigo_produto" id="codigoProduto" class="form-control text-uppercase">
                 <label for="codigoProduto">Código do Produto:</label>
             </div>
         </div>

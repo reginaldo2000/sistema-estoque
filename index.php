@@ -26,10 +26,18 @@ $route->post("/salvar", "ProdutoController:salvar");
 $route->get("/editar/{id}", "ProdutoController:paginaEditarProduto");
 $route->put("/atualizar/{id}", "ProdutoController:salvar");
 $route->get("/visualizar/{id}", "ProdutoController:visualizar");
+$route->get("/dados-produto/{id}", "ProdutoController:getProduto");
+$route->delete("/excluir", "ProdutoController:excluir");
 
 
 $route->namespace("Source\Controller")->group("entrada");
 $route->get("/lista", "EntradaController:paginaEntrada");
+
+
+$route->namespace("Source\Controller")->group("categoria");
+$route->get("/lista", "CategoriaController:paginaCategoria");
+$route->post("/salvar", "CategoriaController:salvar");
+$route->get("/salvar/{nome}", "CategoriaController:salvar");
 
 /**
  * Rotas de tratamento de erros

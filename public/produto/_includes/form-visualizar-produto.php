@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-6 mb-3">
         <labe>Código do Produto:</labe>
-        <span class="form-control"><?= ($produto->getCodigoProduto() != "" ? $produto->getCodigoProduto() : "Não informado"); ?></span>
+        <span class="form-control text-uppercase"><?= ($produto->getCodigoProduto() != "" ? $produto->getCodigoProduto() : "Não informado"); ?></span>
     </div>
     <div class="col-lg-6 mb-3">
         <labe>Código de Barras:</labe>
