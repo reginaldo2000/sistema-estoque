@@ -9,13 +9,16 @@ use Source\DAO\UnidadeMedidaDAO;
 use Source\DAO\UsuarioDAO;
 use Source\Entity\Produto;
 
-class ProdutoController extends Controller {
+class ProdutoController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(__DIR__ . "/../../public");
     }
 
-    public function paginaProdutos(): void {
+    public function paginaProdutos(): void
+    {
         $listaProdutos = ProdutoDAO::listarProdutos("");
         $this->responseView("produto/pagina-produto", [
             "nomePagina" => "Lista de Produtos",
@@ -23,7 +26,8 @@ class ProdutoController extends Controller {
         ]);
     }
 
-    public function paginaNovoProduto(array $data): void {
+    public function paginaNovoProduto(array $data): void
+    {
         try {
             $listaCategorias = CategoriaDAO::listar();
             $listaUnidadesMedida = UnidadeMedidaDAO::listar();
@@ -37,7 +41,8 @@ class ProdutoController extends Controller {
         }
     }
 
-    public function salvar(array $data): void {
+    public function salvar(array $data): void
+    {
         try {
             $categoria = CategoriaDAO::get($data["categoria_id"]);
             if (empty($categoria)) {
@@ -78,7 +83,8 @@ class ProdutoController extends Controller {
         }
     }
 
-    public function paginaEditarProduto(array $data): void {
+    public function paginaEditarProduto(array $data): void
+    {
         try {
             $produto = null;
             if (isset($data["id"])) {
@@ -102,7 +108,8 @@ class ProdutoController extends Controller {
         }
     }
 
-    public function visualizar(array $data) {
+    public function visualizar(array $data)
+    {
         try {
             $id = filter_var($data["id"], FILTER_VALIDATE_INT);
             if (!$id) {
@@ -118,4 +125,36 @@ class ProdutoController extends Controller {
         }
     }
 
+    public function getProduto(array $data): void
+    {
+        try {
+            $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+            if (!$id) {
+                throw new Exception("ID inválido, por favor informe um ID válido!");
+            }
+            $produto = ProdutoDAO::get($id);
+            if (empty($produto)) {
+                throw new Exception("Produto inexistente!");
+            }
+            echo json_encode($produto->toArray(), JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage());
+        }
+    }
+
+    public function excluir(array $data): void
+    {
+        try {
+            $id = $data["id"];
+            ProdutoDAO::excluir($id);
+
+            $listaProdutos = ProdutoDAO::listarProdutos("");
+            $render = $this->renderView("produto/_includes/table-produtos", [
+                "listaProdutos" => $listaProdutos
+            ]);
+            $this->responseJson(false, "Produto excluído com sucesso!", $render);
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage());
+        }
+    }
 }

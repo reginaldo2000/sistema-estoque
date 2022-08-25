@@ -124,12 +124,17 @@
     background-color: #22222f;
     height: 100vh;
     top: 70px;
+    padding: 10px;
 }
 
 .menu_principal ul {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.menu_principal ul li {
+    margin: 2px 0;
 }
 
 .menu_principal ul li a {
@@ -142,9 +147,14 @@
     height: 36px;
     align-items: center;
     padding: 20px 20px;
+    border-radius: 8px;
 }
 
 .menu_principal ul li a:hover {
+    background-color: #2f4f4f;
+}
+
+.menu_principal ul li a.active-menu {
     background-color: #2f4f4f;
 }
 
@@ -195,6 +205,33 @@
     font-family: FontAwesome;
     font-size: 1.3rem;
     margin-right: 10px;
+}
+
+.icon-sair::before {
+    content: '\f08b';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.icon-ativo, .icon-ativo:hover {
+    text-decoration: none;
+    color: #3a3;
+}
+.icon-ativo::before {
+    content: '\f058';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+}
+
+.icon-inativo, .icon-inativo:hover {
+    text-decoration: none;
+    color: #c33;
+}
+.icon-inativo::before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
 }
 
 

@@ -48,6 +48,11 @@ function session_set(string $key, $value): void
     $_SESSION[$key] = $value;
 }
 
+function session_remove(string $key): void
+{
+    unset($_SESSION[$key]);
+}
+
 function setMessage(string $message, string $type): void
 {
     $_SESSION["msg_dialog"] = $message;

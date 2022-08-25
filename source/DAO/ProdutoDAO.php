@@ -2,7 +2,6 @@
 
 namespace Source\DAO;
 
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Source\Entity\EntityManagerFactory;
 use Source\Entity\Produto;
@@ -20,10 +19,12 @@ class ProdutoDAO
             $queryBuilder = EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
                 ->createQueryBuilder("p");
 
-            return $queryBuilder->where("p.nome LIKE :nome")->setParameter("nome", '%' . $nome . '%')
+            return $queryBuilder->where("p.nome LIKE :nome AND p.status != :status")
+                ->setParameter("nome", '%' . $nome . '%')
+                ->setParameter("status", "EXCLUIDO")
                 ->orderBy("p.nome")->getQuery()->getResult();
         } catch (Exception $e) {
-            echo $e;
+            throw new Exception($e->getMessage(), 500);
         }
     }
 
@@ -47,7 +48,8 @@ class ProdutoDAO
         }
     }
 
-    public static function atualizar(Produto $produto): void {
+    public static function atualizar(Produto $produto): void
+    {
         try {
             $em = EntityManagerFactory::getEntityManager();
             $produtoObject = $em->find(Produto::class, $produto->getId());
@@ -62,9 +64,23 @@ class ProdutoDAO
             $produtoObject->setUnidadeMedida($produto->getUnidadeMedida());
             $produtoObject->setDataModificacao($produto->getDataModificacao());
             $em->flush();
-        } catch(Exception $e) {
-            setMessage("Erro ao atualizar!", "alert-danger");
-            redirect("/produto/editar/{$produto->getId()}");
+        } catch (Exception $e) {
+            throw new Exception("Erro ao atualizar o produto!", 500);
+        }
+    }
+
+    public static function excluir(int $id): void
+    {
+        try {
+            $em = EntityManagerFactory::getEntityManager();
+            $produto = $em->find(Produto::class, $id);
+            if (empty($produto)) {
+                throw new Exception("Produto inexistente!");
+            }
+            $produto->setStatus("EXCLUIDO");
+            $em->flush();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 500);
         }
     }
 }

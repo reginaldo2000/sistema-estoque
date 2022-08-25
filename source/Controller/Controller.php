@@ -25,11 +25,12 @@ abstract class Controller
      * @param string $render
      * @return void
      */
-    public function responseJson(bool $erro, string $message = "", string $render = ""): void
+    public function responseJson(bool $erro, string $message = "", string $messageType = "alert-success", string $render = ""): void
     {
         $dados = [
-            "erro" => $erro,
+            "error" => $erro,
             "message" => $message,
+            "messageType" => $messageType,
             "render" => $render
         ];
         echo json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS);

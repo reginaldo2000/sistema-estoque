@@ -1,5 +1,6 @@
 <?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 <?php $this->insert("produto/_includes/modal-visualizar-produto"); ?>
+<?php $this->insert("produto/_includes/modal-excluir-produto"); ?>
 
 <div id="alert" class="alert alert-dismissible" role="alert" hidden>
     <span></span>
@@ -42,25 +43,8 @@
                 <th class="text-center text-uppercase" colspan="3">ações</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($listaProdutos as $prod) : ?>
-                <tr>
-                    <td></td>
-                    <td><?= $prod->getCodigoProduto(); ?></td>
-                    <td><?= $prod->getNome(); ?></td>
-                    <td><?= $prod->getCategoria()->getNome(); ?></td>
-                    <td class="text-center"><?= $prod->getEstoque(); ?></td>
-                    <td class="text-center">
-                        <a class="text-dark"><i class="material-icons" onclick="visualizarProduto(<?= $prod->getId(); ?>);">visibility</i></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="<?= url("/produto/editar/{$prod->getId()}"); ?>" class="text-dark"><i class="material-icons">edit</i></a>
-                    </td>
-                    <td class="text-center">
-                        <a class="text-danger"><i class="material-icons">delete</i></a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+        <tbody id="tableProdutos">
+            <?php include_once __DIR__."/_includes/table-produtos.php"; ?>
         </tbody>
     </table>
 </div>
