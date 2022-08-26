@@ -4,12 +4,7 @@ namespace Source\Controller;
 
 use Exception;
 use Source\DAO\CategoriaDAO;
-use Source\DAO\ProdutoDAO;
-use Source\DAO\UnidadeMedidaDAO;
-use Source\DAO\UsuarioDAO;
 use Source\Entity\Categoria;
-use Source\Entity\EntityManagerFactory;
-use Source\Entity\Produto;
 
 class CategoriaController extends Controller
 {
@@ -28,15 +23,25 @@ class CategoriaController extends Controller
 
     public function salvar(array $data): void
     {
-        $categoria = new Categoria();
-        $categoria->setNome($data["nome"]);
-        CategoriaDAO::salvar($categoria);
-        $this->responseJson(false, "categoria cadastrada!");
+        try {
+            $categoria = new Categoria();
+            $categoria->setNome($data["nome"]);
+            CategoriaDAO::salvar($categoria);
+            $this->responseJson(false, "categoria cadastrada!");
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage(), "alert-danger");
+        }
     }
 
-    public function pesquisar(array $data): void {
-        $nomeCategoria = filter_var($data["nome"], FILTER_SANITIZE_SPECIAL_CHARS);
-        $listaCategorias = CategoriaDAO::listar($nomeCategoria);
-        $this->responseJson(false, "", "", "", $listaCategorias);
+    public function pesquisar(array $data): void
+    {
+        try {
+            $nomeCategoria = filter_var($data["nome"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $listaCategorias = CategoriaDAO::listar($nomeCategoria);
+            $this->responseJson(false, "", "", "", $listaCategorias);
+        } catch(Exception $e) {
+            $this->responseJson(true, $e->getMessage(), "alert-danger");
+        }
+        
     }
 }
