@@ -5,6 +5,7 @@ namespace Source\Controller;
 use Exception;
 use Source\DAO\CategoriaDAO;
 use Source\Entity\Categoria;
+use Source\Utils\Paginacao;
 
 class CategoriaController extends Controller
 {
@@ -16,14 +17,20 @@ class CategoriaController extends Controller
 
     public function paginaCategoria(): void
     {
-        $this->responseView("categoria/add-categoria", [
-            "nomePagina" => "Lista de Produtos"
+        $paginacao = new Paginacao("/categoria/pesquisar");
+        $listaCategorias = CategoriaDAO::listar("", $paginacao);
+
+        $this->responseView("categoria/pagina-categoria", [
+            "nomePagina" => "Lista de Produtos",
+            "listaCategorias" => $listaCategorias,
+            "paginacao" => $paginacao
         ]);
     }
 
     public function salvar(array $data): void
     {
         try {
+
             $categoria = new Categoria();
             $categoria->setNome($data["nome"]);
             CategoriaDAO::salvar($categoria);
@@ -36,12 +43,19 @@ class CategoriaController extends Controller
     public function pesquisar(array $data): void
     {
         try {
-            $nomeCategoria = filter_var($data["nome"], FILTER_SANITIZE_SPECIAL_CHARS);
-            $listaCategorias = CategoriaDAO::listar($nomeCategoria);
-            $this->responseJson(false, "", "", "", $listaCategorias);
-        } catch(Exception $e) {
+            $nomeCategoria = filter_input(INPUT_GET, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
+
+            $paginacao = new Paginacao("/categoria/pesquisar", $data["pagina"]);
+            $listaCategorias = CategoriaDAO::listar($nomeCategoria, $paginacao);
+
+            $render = $this->renderView("categoria/_includes/table-categorias", [
+                "listaCategorias" => $listaCategorias,
+                "paginacao" => $paginacao
+            ]);
+
+            $this->responseJson(false, "", "", $render);
+        } catch (Exception $e) {
             $this->responseJson(true, $e->getMessage(), "alert-danger");
         }
-        
     }
 }

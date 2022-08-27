@@ -2,9 +2,11 @@
 
 namespace Source\DAO;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Source\Entity\Categoria;
 use Source\Entity\EntityManagerFactory;
+use Source\Utils\Paginacao;
 
 class CategoriaDAO
 {
@@ -13,14 +15,26 @@ class CategoriaDAO
     {
     }
 
-    public static function listar(string $nome = ""): array
+    public static function listar(string $nome = "", Paginacao $paginacao = null): array
     {
         $queryBuilder = EntityManagerFactory::getEntityManager()
             ->getRepository(Categoria::class)->createQueryBuilder("c");
 
-        return $queryBuilder->where("c.nome LIKE :nome")
+        $query = $queryBuilder->where("c.nome LIKE :nome")
             ->setParameter("nome", '%' . $nome . '%')
-            ->orderBy("c.nome")->getQuery()->getResult();
+            ->orderBy("c.id")->getQuery();
+
+        $paginator = new Paginator($query);
+
+        if($paginacao != null) {
+            $inicio = ($paginacao->getPagina() - 1) * $paginacao->getNumeroLinhas();
+            $query->setFirstResult($inicio)->setMaxResults($paginacao->getNumeroLinhas());
+        }
+
+        // var_dump($query->getResult());
+        // exit;
+        
+        return $query->getResult();
     }
 
     public static function get(int $id): ?Categoria

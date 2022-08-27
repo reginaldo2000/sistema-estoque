@@ -20,36 +20,49 @@ ajaxActions.forEach(action => {
         })
 
         let jsonObject = JSON.parse('{' + stringJson + '}')
-        $.ajax({
-            type: method,
-            dataType: "JSON",
-            url: urlRequest,
-            data: jsonObject,
-            success: function (response) {
-
-                console.log(response)
-
-                if (response.error) {
-                    console.log(response)
-                    return
-                }
-                if (response.message != "") {
-                    const alert = action.getAttribute("ajax-alert")
-                    htmlMessageAlert(alert, response.message, response.messageType)
-                }
-
-                if (response.object != null) {
-
-                }
-            }
-        })
+        ajaxRequest(action, method, urlRequest, jsonObject)
     })
 
 })
 
-const htmlMessageAlert = (alert, message, type) => {
-    const element = document.querySelector(alert)
-    element.classList.add(type)
-    element.removeAttribute("hidden")
-    document.querySelector(alert + " .message").innerHTML = message;
+const htmlMessageAlert = (selector, message, type) => {
+    const alert = document.querySelector(selector);
+    alert.removeAttribute("class");
+    alert.classList.add("alert", type, "alert-dismissible", "fade", "show");
+    alert.children[0].innerHTML = message;
+    alert.removeAttribute("hidden");
+}
+
+const ajaxRequest = (action, method, urlRequest, jsonObject) => {
+    console.log(action)
+    $.ajax({
+        type: method,
+        dataType: "JSON",
+        url: urlRequest,
+        data: jsonObject,
+        success: response => {
+
+            console.log(response)
+
+            if (response.error) {
+                htmlMessageAlert(action.getAttribute("ajax-alert"), response.message, response.messageType)
+                return
+            }
+            if (response.message != "") {
+                const alert = action.getAttribute("ajax-alert")
+                htmlMessageAlert(alert, response.message, response.messageType)
+            }
+            if (response.render != "") {
+                const elementRender = action.getAttribute("ajax-render")
+                document.querySelector(elementRender).innerHTML = response.render
+            }
+        },
+        error: erro => {
+            console.log(erro)
+            if (action.getAttribute("ajax-alert") != null) {
+                htmlMessageAlert(action.getAttribute("ajax-alert"), erro.responseText, "alert-danger")
+            }
+
+        }
+    })
 }

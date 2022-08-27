@@ -20,7 +20,7 @@
 
                 <?= (isset(session()->msgAlerta) ? session()->msgAlerta : ""); ?>
                 
-                <form method="POST" action="<?= url("/usuario/autenticar"); ?>" autocomplete="off">
+                <form method="POST" action="<?= url("/usuario/autenticar"); ?>" autocomplete="off" onsubmit="ajaxAbrirModalLoading();">
                     <div class="row">
                         <div class="col-lg-12">
                             <label for="usuario">Usuário:</label>

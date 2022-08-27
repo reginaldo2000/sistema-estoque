@@ -34,12 +34,10 @@ $route->namespace("Source\Controller")->group("entrada");
 $route->get("/lista", "EntradaController:paginaEntrada");
 
 
-
 $route->namespace("Source\Controller")->group("categoria");
 $route->get("/lista", "CategoriaController:paginaCategoria");
 $route->post("/salvar", "CategoriaController:salvar");
-$route->get("/salvar/{nome}", "CategoriaController:salvar");
-$route->post("/pesquisar", "CategoriaController:pesquisar");
+$route->get("/pesquisar/{pagina}", "CategoriaController:pesquisar");
 
 
 /**

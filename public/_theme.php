@@ -28,6 +28,9 @@
                 <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios <?= ($nomePagina == "Lista de Usuários" ? "active-menu" : ""); ?>">Usuários</a>
             </li>
             <li>
+                <a href="<?= url("/categoria/lista"); ?>" class="icon-produtos <?= ($nomePagina == "Lista de Categorias" ? "active-menu" : ""); ?>">Categorias</a>
+            </li>
+            <li>
                 <a href="<?= url("/produto/lista"); ?>" class="icon-produtos <?= ($nomePagina == "Lista de Produtos" ? "active-menu" : ""); ?>">Produtos</a>
             </li>
             <li>
