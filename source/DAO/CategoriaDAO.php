@@ -15,13 +15,19 @@ class CategoriaDAO extends GenericDAO
     {
     }
 
+    /**
+     * retorna uma lista de objetos de Categoria
+     * @param string $nome
+     * @param Paginacao|null $paginacao
+     */
     public static function listar(string $nome = "", Paginacao $paginacao = null): array
     {
         $queryBuilder = EntityManagerFactory::getEntityManager()
             ->getRepository(Categoria::class)->createQueryBuilder("c");
 
-        $query = $queryBuilder->where("c.nome LIKE :nome")
+        $query = $queryBuilder->where("c.nome LIKE :nome AND c.status != :status")
             ->setParameter("nome", '%' . $nome . '%')
+            ->setParameter("status", 'EXCLUIDO')
             ->orderBy("c.nome")->getQuery();
 
         $paginator = new Paginator($query);
@@ -35,6 +41,11 @@ class CategoriaDAO extends GenericDAO
         return $query->getResult();
     }
 
+    /**
+     * Retorna um objeto de Categoria
+     * @param int $id
+     * @return Categoria|null
+     */
     public static function get(int $id): ?Categoria
     {
         return EntityManagerFactory::getEntityManager()
@@ -43,6 +54,7 @@ class CategoriaDAO extends GenericDAO
     }
 
     /**
+     * salva uma Categoria na base de dados
      * @param Categoria $categoria
      * @return void
      */
@@ -54,6 +66,40 @@ class CategoriaDAO extends GenericDAO
             $em->flush();
         } catch (Exception $e) {
             throw new Exception("Erro ao cadastrar a categoria!", 500);
+        }
+    }
+
+    /**
+     * atualiza os dados da Categoria na base de dados
+     * @param Categoria $categoria
+     * @param int $id
+     * @return void
+     */
+    public static function atualizar(Categoria $categoria, int $id): void
+    {
+        try {
+            $em = EntityManagerFactory::getEntityManager();
+            $categoriaObj = $em->find(Categoria::class, $id);
+            $categoriaObj->setNome($categoria->getNome());
+            $em->flush();
+        } catch (Exception $e) {
+            throw new Exception("Erro ao atualizar a categoria!", 500);
+        }
+    }
+
+    public static function excluir(int $id): void
+    {
+        try {
+            $em = EntityManagerFactory::getEntityManager();
+            $categoriaObj = $em->find(Categoria::class, $id);
+
+            if (empty($categoriaObj)) {
+                throw new Exception("Id da categoria está inválido!");
+            }
+            $categoriaObj->setStatus("EXCLUIDO");
+            $em->flush();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 500);
         }
     }
 }

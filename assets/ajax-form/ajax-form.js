@@ -149,6 +149,7 @@ modalReset.forEach(modal => {
         const modalId = modal.getAttribute("data-bs-target");
         const formulario = document.querySelector(`${modalId} form`);
         formulario.reset();
+        formulario.classList.remove("was-validated");
     })
 });
 

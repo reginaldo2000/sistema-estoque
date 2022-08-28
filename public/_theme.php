@@ -28,7 +28,7 @@
                 <a href="<?= url("/usuario/lista"); ?>" class="icon-usuarios <?= ($nomePagina == "Lista de Usuários" ? "active-menu" : ""); ?>">Usuários</a>
             </li>
             <li>
-                <a href="<?= url("/categoria/lista"); ?>" class="icon-produtos <?= ($nomePagina == "Lista de Categorias" ? "active-menu" : ""); ?>">Categorias</a>
+                <a href="<?= url("/categoria/lista"); ?>" class="icon-categorias <?= ($nomePagina == "Lista de Categorias" ? "active-menu" : ""); ?>">Categorias</a>
             </li>
             <li>
                 <a href="<?= url("/produto/lista"); ?>" class="icon-produtos <?= ($nomePagina == "Lista de Produtos" ? "active-menu" : ""); ?>">Produtos</a>
@@ -68,8 +68,8 @@
     <script src="<?= asset("/js/jquery-3.6.0.js"); ?>"></script>
     <script src="<?= url("/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"); ?>"></script>
     <script src="<?= asset("/js/main.js"); ?>"></script>
-    
-    <script src="<?= asset("/ajax-form/ajax-form2.js"); ?>"></script>
+    <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
+    <script src="<?= asset("/js/funcoes.js"); ?>"></script>
 
     <?= $this->section("scripts"); ?>
 </body>

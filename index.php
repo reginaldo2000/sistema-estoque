@@ -38,6 +38,8 @@ $route->namespace("Source\Controller")->group("categoria");
 $route->get("/lista", "CategoriaController:paginaCategoria");
 $route->get("/lista/{pagina}", "CategoriaController:paginaCategoria");
 $route->post("/salvar", "CategoriaController:salvar");
+$route->get("/dados-categoria/{id}", "CategoriaController:getCategoria");
+$route->post("/excluir", "CategoriaController:excluir");
 
 
 

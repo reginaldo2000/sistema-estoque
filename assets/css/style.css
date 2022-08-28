@@ -180,7 +180,7 @@
 }
 
 .icon-produtos::before {
-    content: '\f10a';
+    content: '\f1b2';
     font-family: FontAwesome;
     font-size: 1.3rem;
     margin-right: 10px;
@@ -236,6 +236,13 @@
     content: '\f057';
     font-family: FontAwesome;
     font-size: 1.3rem;
+}
+
+.icon-categorias::before {
+    content: '\f01c';
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    margin-right: 10px;
 }
 
 .paginacao {

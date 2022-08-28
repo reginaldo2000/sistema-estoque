@@ -4,7 +4,7 @@
             <a href="<?= $paginacao->getPaginaAnterior(); ?>" class="page-link">&#60;&#60;</a>
         </li>
 
-        <?php for ($i = (intval($paginacao->getPagina() / 5) * 5) + 1; $i <= $paginacao->getNumeroPaginas() && $i < (5 * (intval($i / 5) + 2)); $i++) : ?>
+        <?php for ($i = $paginacao->getPaginaInicial(); $i <= $paginacao->getPaginaFinal() && $i <= $paginacao->getNumeroPaginas(); $i++) : ?>
             <li class="page-item <?= ($paginacao->getPagina() == $i ? "active" : ""); ?>">
                 <a href="<?= $paginacao->escolherPagina($i); ?>" class="page-link"><?= $i; ?></a>
             </li>

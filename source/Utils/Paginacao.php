@@ -73,6 +73,25 @@ class Paginacao
         return $this->params;
     }
 
+    public function getPaginaInicial(): int
+    {
+        $num = $this->pagina % 5;
+        if ($num != 0) {
+            return (intval($this->pagina / 5) * 5) + 1;
+        }
+        return (intval($this->pagina / 5) * 5) - 4;
+    }
+
+
+    public function getPaginaFinal(): int
+    {
+        $num = $this->pagina % 5;
+        if ($num != 0) {
+            return ((intval($this->pagina / 5) + 1) * 5);
+        }
+        return (intval($this->pagina / 5) * 5);
+    }
+
     private function getStringParams(): string
     {
         unset($this->params["route"]);

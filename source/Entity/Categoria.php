@@ -25,6 +25,11 @@ class Categoria
     private string $nome;
 
     /**
+     * @ORM\Column(type="string", length=20, options={"default":"ATIVO"})
+     */
+    private string $status = "ATIVO";
+
+    /**
      * @ORM\Column(name="data_criacao", type="datetime")
      */
     private DateTime $dataCriacao;
@@ -78,5 +83,25 @@ class Categoria
     public function setDataModificacao(DateTime $dataModificacao): void
     {
         $this->dataModificacao = $dataModificacao;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function toArray(): array
+    {
+        $dados = [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "status" => $this->status
+        ];
+        return $dados;
     }
 }
