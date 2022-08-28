@@ -36,8 +36,9 @@ $route->get("/lista", "EntradaController:paginaEntrada");
 
 $route->namespace("Source\Controller")->group("categoria");
 $route->get("/lista", "CategoriaController:paginaCategoria");
+$route->get("/lista/{pagina}", "CategoriaController:paginaCategoria");
 $route->post("/salvar", "CategoriaController:salvar");
-$route->get("/pesquisar/{pagina}", "CategoriaController:pesquisar");
+
 
 
 /**

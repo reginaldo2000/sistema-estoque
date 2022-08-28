@@ -11,18 +11,20 @@
 </a>
 
 <div class="card card-footer mt-3">
-    <div class="row">
-        <div class="col-lg-4 mb-3">
-            <label for="pesquisa">Pesquisar:</label>
-            <input type="text" id="pesquisa" class="form-control" ajax-param="pesquisa:nome">
-        </div>
+    <form method="GET" action="<?= url("/categoria/lista/1"); ?>">
+        <div class="row">
+            <div class="col-lg-4 mb-3">
+                <label for="pesquisa">Pesquisar:</label>
+                <input type="text" name="nome" id="pesquisa" class="form-control">
+            </div>
 
-        <div class="col-lg-5 mb-3 d-flex align-items-end">
-            <button type="button" class="btn btn-primary" ajax-action="get:/categoria/pesquisar/1" ajax-target="pesquisa" ajax-render="#tableCategorias" ajax-alert="#alert">
-                <i class="fa fa-search"></i> Buscar
-            </button>
+            <div class="col-lg-5 mb-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 <table class="table table-bordered table-striped table-hover mt-3">
     <thead>
@@ -35,5 +37,8 @@
     <tbody id="tableCategorias">
         <?php include_once __DIR__ . "/_includes/table-categorias.php"; ?>
     </tbody>
-
 </table>
+
+<div class="paginacao">
+    <?php include __DIR__ . "/../_paginacao.php"; ?>
+</div>

@@ -20,8 +20,3 @@
         <td colspan="4">Nenhuma categoria encontrada!</td>
     </tr>
 <?php endif; ?>
-<tr>
-    <td colspan="4" class="text-center">
-        <?php include __DIR__ . "/../../_paginacao.php"; ?>
-    </td>
-</tr>

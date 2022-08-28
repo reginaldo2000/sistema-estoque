@@ -214,24 +214,33 @@
     margin-right: 10px;
 }
 
-.icon-ativo, .icon-ativo:hover {
+.icon-ativo,
+.icon-ativo:hover {
     text-decoration: none;
     color: #3a3;
 }
+
 .icon-ativo::before {
     content: '\f058';
     font-family: FontAwesome;
     font-size: 1.3rem;
 }
 
-.icon-inativo, .icon-inativo:hover {
+.icon-inativo,
+.icon-inativo:hover {
     text-decoration: none;
     color: #c33;
 }
+
 .icon-inativo::before {
     content: '\f057';
     font-family: FontAwesome;
     font-size: 1.3rem;
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
 }
 
 

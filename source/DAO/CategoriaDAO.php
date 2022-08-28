@@ -8,7 +8,7 @@ use Source\Entity\Categoria;
 use Source\Entity\EntityManagerFactory;
 use Source\Utils\Paginacao;
 
-class CategoriaDAO
+class CategoriaDAO extends GenericDAO
 {
 
     public function __construct()
@@ -22,18 +22,16 @@ class CategoriaDAO
 
         $query = $queryBuilder->where("c.nome LIKE :nome")
             ->setParameter("nome", '%' . $nome . '%')
-            ->orderBy("c.id")->getQuery();
+            ->orderBy("c.nome")->getQuery();
 
         $paginator = new Paginator($query);
+        self::setMaxRow(count($paginator));
 
-        if($paginacao != null) {
+        if ($paginacao != null) {
             $inicio = ($paginacao->getPagina() - 1) * $paginacao->getNumeroLinhas();
             $query->setFirstResult($inicio)->setMaxResults($paginacao->getNumeroLinhas());
         }
 
-        // var_dump($query->getResult());
-        // exit;
-        
         return $query->getResult();
     }
 

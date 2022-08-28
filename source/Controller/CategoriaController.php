@@ -15,45 +15,33 @@ class CategoriaController extends Controller
         parent::__construct(__DIR__ . "/../../public");
     }
 
-    public function paginaCategoria(): void
+    public function paginaCategoria(array $data): void
     {
-        $paginacao = new Paginacao("/categoria/pesquisar");
-        $listaCategorias = CategoriaDAO::listar("", $paginacao);
+        try {
+            $params = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
+            $pagina = isset($data["pagina"]) ? $data["pagina"] : 1;
 
-        $this->responseView("categoria/pagina-categoria", [
-            "nomePagina" => "Lista de Produtos",
-            "listaCategorias" => $listaCategorias,
-            "paginacao" => $paginacao
-        ]);
+            $paginacao = new Paginacao(url("/categoria/lista"), $params, $pagina);
+            $listaCategorias = CategoriaDAO::listar($params["nome"], $paginacao);
+            $paginacao->setTotalResultados(CategoriaDAO::getMaxRow());
+
+            $this->responseView("categoria/pagina-categoria", [
+                "nomePagina" => "Lista de Produtos",
+                "listaCategorias" => $listaCategorias,
+                "paginacao" => $paginacao
+            ]);
+        } catch (Exception $e) {
+            redirect("/oops/{$e->getCode()}");
+        }
     }
 
     public function salvar(array $data): void
     {
         try {
-
             $categoria = new Categoria();
             $categoria->setNome($data["nome"]);
             CategoriaDAO::salvar($categoria);
             $this->responseJson(false, "categoria cadastrada!");
-        } catch (Exception $e) {
-            $this->responseJson(true, $e->getMessage(), "alert-danger");
-        }
-    }
-
-    public function pesquisar(array $data): void
-    {
-        try {
-            $nomeCategoria = filter_input(INPUT_GET, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
-
-            $paginacao = new Paginacao("/categoria/pesquisar", $data["pagina"]);
-            $listaCategorias = CategoriaDAO::listar($nomeCategoria, $paginacao);
-
-            $render = $this->renderView("categoria/_includes/table-categorias", [
-                "listaCategorias" => $listaCategorias,
-                "paginacao" => $paginacao
-            ]);
-
-            $this->responseJson(false, "", "", $render);
         } catch (Exception $e) {
             $this->responseJson(true, $e->getMessage(), "alert-danger");
         }
