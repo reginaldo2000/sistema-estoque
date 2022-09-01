@@ -2,27 +2,38 @@
 
 namespace Source\DAO;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Source\Entity\EntityManagerFactory;
 use Source\Entity\Produto;
+use Source\Utils\Paginacao;
 
-class ProdutoDAO
+class ProdutoDAO extends GenericDAO
 {
 
     public function __construct()
     {
     }
 
-    public static function listarProdutos(string $nome): ?array
+    public static function listarProdutos(string $nome, Paginacao $paginacao): ?array
     {
         try {
             $queryBuilder = EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
                 ->createQueryBuilder("p");
 
-            return $queryBuilder->where("p.nome LIKE :nome AND p.status != :status")
+            $query = $queryBuilder->where("p.nome LIKE :nome AND p.status != :status")
                 ->setParameter("nome", '%' . $nome . '%')
                 ->setParameter("status", "EXCLUIDO")
-                ->orderBy("p.nome")->getQuery()->getResult();
+                ->orderBy("p.nome")->getQuery();
+
+            $paginator = new Paginator($query);
+            self::setMaxRow(count($paginator));
+
+            if ($paginacao != null) {
+                $inicio = ($paginacao->getPagina() - 1) * $paginacao->getNumeroLinhas();
+                $query->setFirstResult($inicio)->setMaxResults($paginacao->getNumeroLinhas());
+            }
+            return $query->getResult();
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 500);
         }

@@ -8,6 +8,7 @@ use Source\DAO\ProdutoDAO;
 use Source\DAO\UnidadeMedidaDAO;
 use Source\DAO\UsuarioDAO;
 use Source\Entity\Produto;
+use Source\Utils\Paginacao;
 
 class ProdutoController extends Controller
 {
@@ -17,12 +18,24 @@ class ProdutoController extends Controller
         parent::__construct(__DIR__ . "/../../public");
     }
 
-    public function paginaProdutos(): void
+    public function paginaProdutos(array $data): void
     {
-        $listaProdutos = ProdutoDAO::listarProdutos("");
+        $params= filter_input_array(INPUT_GET);
+        $pagina = $data["pagina"] ?? 1;
+
+        $nomeProduto = $params["pesquisa"] ?? "";
+
+        $paginacao = new Paginacao(url("/produto/lista"), $params, $pagina);
+
+        $listaProdutos = ProdutoDAO::listarProdutos($nomeProduto, $paginacao);
+
+        $paginacao->setTotalResultados(CategoriaDAO::getMaxRow());
+
         $this->responseView("produto/pagina-produto", [
             "nomePagina" => "Lista de Produtos",
-            "listaProdutos" => $listaProdutos
+            "listaProdutos" => $listaProdutos,
+            "pesquisa" => $nomeProduto,
+            "paginacao" => $paginacao
         ]);
     }
 
@@ -119,7 +132,7 @@ class ProdutoController extends Controller
             $render = $this->renderView("produto/_includes/form-visualizar-produto", [
                 "produto" => $produto
             ]);
-            $this->responseJson(false, "Produto encontrado!", $render);
+            $this->responseJson(false, "Produto encontrado!", "alert-success", $render);
         } catch (Exception $e) {
             $this->responseJson(true, $e->getMessage());
         }
@@ -148,7 +161,9 @@ class ProdutoController extends Controller
             $id = $data["id"];
             ProdutoDAO::excluir($id);
 
-            $listaProdutos = ProdutoDAO::listarProdutos("");
+            $paginacao = new Paginacao(url("/produto/lista"), []);
+
+            $listaProdutos = ProdutoDAO::listarProdutos("", $paginacao);
             $render = $this->renderView("produto/_includes/table-produtos", [
                 "listaProdutos" => $listaProdutos
             ]);

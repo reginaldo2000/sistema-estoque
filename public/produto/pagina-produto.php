@@ -14,10 +14,10 @@
 </a>
 
 <div class="card card-footer">
-    <form method="POST" action="<?= url("/produto/listar"); ?>" autocomplete="off">
+    <form method="GET" action="<?= url("/produto/lista"); ?>" autocomplete="off">
         <div class="row">
             <div class="col-lg-4 mt-2 mb-3">
-                <input type="text" name="pesquisa" id="pesquisa" class="form-control" placeholder="Nome do produto">
+                <input type="text" name="pesquisa" id="pesquisa" class="form-control" value="<?= $pesquisa; ?>" placeholder="Nome do produto">
             </div>
 
             <div class="col-lg-4 mb-3 d-flex align-items-end">
@@ -44,31 +44,15 @@
             </tr>
         </thead>
         <tbody id="tableProdutos">
-            <?php include_once __DIR__."/_includes/table-produtos.php"; ?>
+            <?php include_once __DIR__ . "/_includes/table-produtos.php"; ?>
         </tbody>
     </table>
 </div>
 
+<div class="paginacao">
+    <?php include __DIR__ . "/../_paginacao.php"; ?>
+</div>
+
 <?php $this->start("scripts"); ?>
-<script>
-    const visualizarProduto = id => {
-        ajaxAbrirModalLoading()
-        fetch(`${MAIN_URL}/produto/visualizar/${id}`)
-                .then(response => {
-                    return response.json()
-                })
-                .then(data => {
-                    if (data.erro) {
-                        ajaxAlerta(true, "#alert", data.message)
-                        return
-                    }
-                    $("#modalVisualizarProduto .modal-body").html(data.render)
-                    $("#modalVisualizarProduto").modal("show")
-                })
-                .catch(erro => {
-                    console.log(erro)
-                })
-        ajaxFecharModalLoading(1000)
-    }
-</script>
+<script src="<?= asset("/js/funcoes.js"); ?>"></script>
 <?php $this->end(); ?>
