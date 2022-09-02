@@ -264,3 +264,16 @@
 a {
     cursor: pointer;
 }
+
+.overflow-table table {
+    width: 100%;
+}
+
+.overflow-table table thead, .overflow-table table tbody {
+    display: block;
+}
+
+.overflow-table table tbody {
+    overflow-y: auto;
+    max-height: 400px;
+}

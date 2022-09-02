@@ -32,6 +32,7 @@ $route->delete("/excluir", "ProdutoController:excluir");
 
 $route->namespace("Source\Controller")->group("entrada");
 $route->get("/lista", "EntradaController:paginaEntrada");
+$route->get("/nova", "EntradaController:paginaNovaEntrada");
 
 
 $route->namespace("Source\Controller")->group("categoria");

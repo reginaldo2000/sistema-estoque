@@ -25,4 +25,14 @@ class EntradaController extends Controller {
             
         }
     }
+
+    public function paginaNovaEntrada(array $data): void {
+        try {
+            $this->responseView("entrada/pagina-nova-entrada", [
+                
+            ]);
+        } catch (Exception $e) {
+            
+        }
+    }
 }

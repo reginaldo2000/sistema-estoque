@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<?= asset("/ajax-form/ajax-form.css"); ?>">
     <link rel="stylesheet" href="<?= asset("/font-awesome-4.7.0/css/font-awesome.min.css"); ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body class="fundo_app">
@@ -70,7 +71,12 @@
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
     <script src="<?= asset("/js/funcoes.js"); ?>"></script>
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".select2").select2();
+        });
+    </script>
     <?= $this->section("scripts"); ?>
 </body>
 
