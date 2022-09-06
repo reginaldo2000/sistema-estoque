@@ -13,3 +13,11 @@ const formataMoeda = element => {
         element.value = arrayValores[0] + "," + arrayValores[1];
     }
 }
+
+const htmlMessageAlert = (selector, message, type) => {
+    const alert = document.querySelector(selector);
+    alert.removeAttribute("class");
+    alert.classList.add("alert", type, "alert-dismissible", "fade", "show");
+    alert.children[0].innerHTML = message;
+    alert.removeAttribute("hidden");
+}

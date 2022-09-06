@@ -23,3 +23,22 @@ function visualizarProduto(id) {
         
     })
 }
+
+function selecionarItemProduto(id) {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: `${MAIN_URL}/produto/dados-produto/${id}`,
+        beforeSend: () => {
+        }, 
+        success: (response) => {
+            document.getElementById("produtoNome").value = response.nome;
+            document.getElementById("produtoId").value = response.id;
+            $("#modalAddItem").modal("hide");
+            htmlMessageAlert("#alerta", "Produto selecionado!", "alert-info");
+            // setTimeout(() => {
+            //     $("#alerta").attr("hidden", true)
+            // }, 2000)
+        }
+    })
+}

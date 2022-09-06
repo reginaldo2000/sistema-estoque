@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="card card-footer">
+                <div class="card card-footer mb-3">
                     <form action="" method="post" class="form-ajax">
                         <div class="row">
                             <div class="col-lg-9 mb-2 mt-2">

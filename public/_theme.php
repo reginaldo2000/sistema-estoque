@@ -71,12 +71,7 @@
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
     <script src="<?= asset("/js/funcoes.js"); ?>"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".select2").select2();
-        });
-    </script>
+    
     <?= $this->section("scripts"); ?>
 </body>
 

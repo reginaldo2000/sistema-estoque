@@ -265,15 +265,20 @@ a {
     cursor: pointer;
 }
 
-.overflow-table table {
-    width: 100%;
-}
-
-.overflow-table table thead, .overflow-table table tbody {
-    display: block;
-}
-
-.overflow-table table tbody {
+.overflow-table {
+    max-height: 460px;
     overflow-y: auto;
-    max-height: 400px;
+}
+
+.overflow-table::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-table::-webkit-scrollbar-track {
+    background: #e1e1e1;
+}
+
+.overflow-table::-webkit-scrollbar-thumb {
+    background-color: #2f4f4f;
+    border-radius: 10px;
 }

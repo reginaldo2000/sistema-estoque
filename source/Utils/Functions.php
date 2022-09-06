@@ -1,7 +1,5 @@
 <?php
 
-session_name(SESSION_NAME);
-session_start();
 
 /**
  * @param string $subUrl
@@ -35,17 +33,19 @@ function redirect(string $urlRedirect): void
     header("location: {$link}");
 }
 
-/**
- * @return object
- */
-function session(): object
-{
-    return (object) $_SESSION;
-}
+
 
 function session_set(string $key, $value): void
 {
     $_SESSION[$key] = $value;
+}
+
+function session_get(string $key): ?mixed
+{
+    if (isset($_SESSION[$key])) {
+        return $_SESSION[$key];
+    }
+    return null;
 }
 
 function session_remove(string $key): void
@@ -76,12 +76,14 @@ function formataMoeda(float $valor): string
     return number_format($valor, 2, ",", ".");
 }
 
-function formataParaFloat(string $valor): float {
+function formataParaFloat(string $valor): float
+{
     return str_replace(",", ".", str_replace(".", "", $valor));
 }
- 
 
-function filterParams(array $params): array {
+
+function filterParams(array $params): array
+{
     // $arrayKeys = array_keys($params);
     // foreach($arrayKeys as $key) {
     //     $params[$key] = filter_va
