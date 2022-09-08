@@ -8,8 +8,13 @@
         <td><input type="text" class="form-control" value="<?= formataMoeda($item->getProduto()->getPrecoEntrada()); ?>" onkeyup="formataMoeda(this);"></td>
         <td><input type="text" class="form-control" value="<?= formataMoeda($item->getProduto()->getPrecoEntrada()); ?>" onkeyup="formataMoeda(this);"></td>
         <td class="text-center">
-            <a>
+            <a class="btn btn-primary">
                 <i class="fa fa-save"></i>
+            </a>
+        </td>
+        <td class="text-center">
+            <a class="btn btn-danger">
+                <i class="fa fa-trash"></i>
             </a>
         </td>
     </tr>

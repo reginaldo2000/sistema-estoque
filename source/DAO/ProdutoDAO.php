@@ -39,6 +39,22 @@ class ProdutoDAO extends GenericDAO
         }
     }
 
+    public static function listarProdutosByIds(string $ids = ""): ?array
+    {
+        try {
+            $queryBuilder = EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
+                ->createQueryBuilder("p");
+
+            $query = $queryBuilder->where("p.id NOT IN(" . $ids . ") AND p.status != :status")
+                ->setParameter("status", "EXCLUIDO")
+                ->orderBy("p.nome")->getQuery();
+
+            return $query->getResult();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 500);
+        }
+    }
+
     public static function salvar(Produto $produto): void
     {
         try {
@@ -54,6 +70,16 @@ class ProdutoDAO extends GenericDAO
     {
         try {
             return EntityManagerFactory::getEntityManager()->find(Produto::class, $id);
+        } catch (Exception $e) {
+            throw new Exception("Erro ao cadastrar o produto! " . $e->getMessage(), 500);
+        }
+    }
+
+    public static function getByCodigo(string $codigoProduto): ?Produto
+    {
+        try {
+            return EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
+                ->findOneBy(["codigoProduto" => $codigoProduto]);
         } catch (Exception $e) {
             throw new Exception("Erro ao cadastrar o produto! " . $e->getMessage(), 500);
         }

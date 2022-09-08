@@ -36,6 +36,7 @@ $route->namespace("Source\Controller")->group("entrada");
 $route->get("/lista", "EntradaController:paginaEntrada");
 $route->get("/nova", "EntradaController:paginaNovaEntrada");
 $route->post("/add-item", "EntradaController:addItem");
+$route->get("/atualiza-tabela-produtos", "EntradaController:tabelaProdutos");
 
 
 $route->namespace("Source\Controller")->group("categoria");

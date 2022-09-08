@@ -13,14 +13,11 @@
     <div class="card-body">
 
         <form method="POST" action="<?= url("/entrada/add-item"); ?>" id="" class="needs-validation form-ajax" novalidate autocomplete="off" ajax-alert="#alerta" ajax-reset-form="true" ajax-render="#tableItens">
-
-            <input type="text" name="produto_id" id="produtoId" hidden>
-
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <input type="text" name="produto_nome" id="produtoNome" class="form-control text-uppercase" placeholder="Pesquisar produto" aria-describedby="basic-addon1">
-                        <span class="input-group-text" id="basic-addon1" data-bs-toggle="modal" data-bs-target="#modalAddItem">
+                        <input type="text" name="produto_codigo" id="produtoNome" class="form-control text-uppercase" placeholder="Pesquisar produto" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1" data-bs-toggle="modal" data-bs-target="#modalAddItem" onclick="atualizaTabelaProdutos();">
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
@@ -54,7 +51,7 @@
                         <th class="text-center text-uppercase" style="width: 10%;">qtde.</th>
                         <th class="text-center text-uppercase" style="width: 10%;">val. unit.</th>
                         <th class="text-center text-uppercase" style="width: 10%;">val. total</th>
-                        <th class="text-center text-uppercase" style="width: 10%;">ação</th>
+                        <th class="text-center text-uppercase" style="width: 12%;" colspan="2">ação</th>
                     </tr>
                 </thead>
                 <tbody id="tableItens">

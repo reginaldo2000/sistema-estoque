@@ -65,12 +65,12 @@ class Produto
     private DateTime $dataModificacao;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categoria")
+     * @ORM\ManyToOne(targetEntity="Categoria", fetch="EAGER")
      */
     private Categoria $categoria;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UnidadeMedida")
+     * @ORM\ManyToOne(targetEntity="UnidadeMedida", fetch="EAGER")
      * @ORM\JoinColumn(name="unidade_medida_id", referencedColumnName="id")
      */
     private UnidadeMedida $unidadeMedida;

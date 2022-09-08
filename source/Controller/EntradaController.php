@@ -5,6 +5,7 @@ namespace Source\Controller;
 use Exception;
 use Source\DAO\ProdutoDAO;
 use Source\Entity\ItemProduto;
+use Source\Entity\Produto;
 
 /**
  * Description of EntradaController
@@ -32,7 +33,7 @@ class EntradaController extends Controller
     public function paginaNovaEntrada(array $data): void
     {
         try {
-            if(isset(session()->listaItens)) {
+            if (isset(session()->listaItens)) {
                 session_remove("listaItens");
             }
             $listaProdutos = ProdutoDAO::listarProdutos();
@@ -53,20 +54,67 @@ class EntradaController extends Controller
             }
 
             $item = new ItemProduto();
-            $item->setProduto(ProdutoDAO::get($data["produto_id"]));
+            $item->setProduto($this->retornaProduto($data));
             $item->setQuantidade(1.000);
 
             array_push($listaItens, serialize($item));
             session_set("listaItens", $listaItens);
 
-            $render = $this->renderView("/entrada/_includes/table-itens-entrada", [
+            $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
                 "listaItens" => $listaItens,
                 "index" => 1
             ]);
 
-            $this->responseJson(false, "Deu certo!", "alert-info", $render);
+            $tableProdutos = $this->atualizaTabelaProdutos();
+
+            $response = [
+                "render" => $tableItens,
+                "tableProdutos" => $tableProdutos,
+                "message" => "Produto adicionado com sucesso!",
+                "messageType" => "alert-info",
+                "error" => false
+            ];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
-            $this->responseJson(true, "Não deu certo!", "alert-danger", $render);
+            $this->responseJson(true, "Não deu certo!" . $e->getMessage(), "alert-danger");
         }
+    }
+
+    private function retornaProduto(array $data): Produto
+    {
+        if (isset($data["produto_id"])) {
+            return ProdutoDAO::get($data["produto_id"]);
+        }
+        return ProdutoDAO::getByCodigo($data["produto_codigo"]);
+    }
+
+    private function atualizaTabelaProdutos(): string
+    {
+        $listaItens = [];
+        if (isset(session()->listaItens)) {
+            $listaItens = (array) session()->listaItens;
+        }
+
+        $listaIds = [];
+        foreach ($listaItens as $i) {
+            var_dump($i);
+            $newItem = unserialize($i);
+            array_push($listaIds, $newItem->getProduto()->getId());
+        }
+        $ids = implode(",", $listaIds) != "" ? implode(",", $listaIds) : "0";
+
+        $tableProdutos = $this->renderView("/entrada/_includes/table-produtos", [
+            "listaProdutos" => ProdutoDAO::listarProdutosByIds($ids)
+        ]);
+
+        return $tableProdutos;
+    }
+
+    public function tabelaProdutos(): void
+    {
+        $response = [
+            "render" => $this->atualizaTabelaProdutos()
+        ];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 }

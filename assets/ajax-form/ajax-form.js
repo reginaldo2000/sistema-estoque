@@ -44,7 +44,7 @@
                     }
 
                     if (dados.message != "") {
-                        ajaxAlerta(dados.erro, ajaxAlert, dados.message);
+                        htmlMessageAlert(ajaxAlert, dados.message, dados.messageType);
                     }
 
                     eventEdit();
@@ -52,7 +52,7 @@
                     ajaxFecharModalLoading(600);
                 }).catch(erro => {
                     ajaxFecharModalLoading(3000);
-                    ajaxAlerta(true, form.getAttribute("ajax-alert"), erro);
+                    htmlMessageAlert(form.getAttribute("ajax-alert"), erro, "alert-danger");
                 });
 
             }

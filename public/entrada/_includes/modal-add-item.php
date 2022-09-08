@@ -6,6 +6,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                <div id="alertaInfo" class="alert alert-dismissible fade show" role="alert" hidden>
+                    <span></span>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+
                 <div class="card card-footer mb-3">
                     <form action="" method="post" class="form-ajax">
                         <div class="row">
@@ -31,7 +37,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableItemProduto">
-                            <?php include __DIR__."/table-produtos.php"; ?>
+                            <?php include __DIR__ . "/table-produtos.php"; ?>
                         </tbody>
                     </table>
                 </div>

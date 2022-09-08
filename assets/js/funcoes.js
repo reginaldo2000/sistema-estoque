@@ -8,7 +8,7 @@ function visualizarProduto(id) {
         },
         success: response => {
             if (response.erro) {
-                ajaxAlerta(true, "#alert", response.message)
+                htmlMessageAlert("#alert", response.message, "alert-danger")
                 return
             }
             $("#modalVisualizarProduto .modal-body").html(response.render)
@@ -17,28 +17,46 @@ function visualizarProduto(id) {
         },
         error: erro => {
             ajaxFecharModalLoading(1000)
-            ajaxAlerta(true, "#alert", erro.message)
+            htmlMessageAlert("#alert", erro.message, "alert-danger")
             console.log(erro)
         }
-        
+
     })
 }
 
 function selecionarItemProduto(id) {
     $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        url: `${MAIN_URL}/entrada/add-item`,
+        data: {
+            produto_id: id
+        },
+        beforeSend: () => {
+        },
+        success: (response) => {
+            $("#tableItens").html(response.render);
+            $("#tableItemProduto").html(response.tableProdutos);
+            htmlMessageAlert("#alertaInfo", response.message, "alert-info");
+        },
+        error: (ex) => {
+            console.log(ex);
+        }
+    })
+}
+
+function atualizaTabelaProdutos() {
+    $.ajax({
         type: "GET",
         dataType: "JSON",
-        url: `${MAIN_URL}/produto/dados-produto/${id}`,
+        url: `${MAIN_URL}/entrada/atualiza-tabela-produtos`,
         beforeSend: () => {
-        }, 
+        },
         success: (response) => {
-            document.getElementById("produtoNome").value = response.nome;
-            document.getElementById("produtoId").value = response.id;
-            $("#modalAddItem").modal("hide");
-            htmlMessageAlert("#alerta", "Produto selecionado!", "alert-info");
-            // setTimeout(() => {
-            //     $("#alerta").attr("hidden", true)
-            // }, 2000)
+            $("#tableItemProduto").html(response.render);
+        },
+        error: (ex) => {
+            console.log(ex);
         }
     })
 }
