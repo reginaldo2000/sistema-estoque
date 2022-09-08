@@ -28,7 +28,7 @@ class Entrada {
     /**
      * @ORM\Column(type="string")
      */
-    private string $descricao;
+    private string $descricao = "";
 
     /**
      * @ORM\Column(name="codigo_nota", type="string", length=100)

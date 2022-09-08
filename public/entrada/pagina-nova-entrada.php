@@ -51,9 +51,10 @@
                         <th class="text-center text-uppercase">item</th>
                         <th class="text-center text-uppercase">cód.</th>
                         <th class="text-center text-uppercase">produto</th>
-                        <th class="text-center text-uppercase">qtde.</th>
-                        <th class="text-center text-uppercase">val. unit.</th>
-                        <th class="text-center text-uppercase">val. total</th>
+                        <th class="text-center text-uppercase" style="width: 10%;">qtde.</th>
+                        <th class="text-center text-uppercase" style="width: 10%;">val. unit.</th>
+                        <th class="text-center text-uppercase" style="width: 10%;">val. total</th>
+                        <th class="text-center text-uppercase" style="width: 10%;">ação</th>
                     </tr>
                 </thead>
                 <tbody id="tableItens">

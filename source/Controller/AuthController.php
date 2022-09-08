@@ -32,7 +32,7 @@ class AuthController extends Controller
         try {
             $usuarioObj = UsuarioDAO::getUsuario($usuario, $senha);
             if (!$usuarioObj) {
-                session_set("msgAlerta", "Usuário ou senha incorretos!");
+                setMessage("Usuário ou senha incorretos!", "alert-warning");
                 redirect("/");
             }
             session_set("usuario", $usuarioObj);
@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     public function sair(): void
     {
-        session_remove("usuario");
+        session_destroy();
         redirect("/");
     }
 

@@ -17,9 +17,8 @@ class EntradaController extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../public");
-        if (!session_id()) {
-            session_start(['cookie_lifetime' => 86400]);
-        }
+        $this->verificaUsuarioAutenticado();
+        // var_dump(session());
     }
 
     public function paginaEntrada(array $data): void
@@ -33,6 +32,9 @@ class EntradaController extends Controller
     public function paginaNovaEntrada(array $data): void
     {
         try {
+            if(isset(session()->listaItens)) {
+                session_remove("listaItens");
+            }
             $listaProdutos = ProdutoDAO::listarProdutos();
             $this->responseView("entrada/pagina-nova-entrada", [
                 "listaProdutos" => $listaProdutos,
@@ -46,21 +48,22 @@ class EntradaController extends Controller
     {
         try {
             $listaItens = [];
-            if (session_get("listaItens") != null) {
-                $listaItens = session_get("listaItens");
+            if (isset(session()->listaItens)) {
+                $listaItens = (array) session()->listaItens;
             }
 
             $item = new ItemProduto();
             $item->setProduto(ProdutoDAO::get($data["produto_id"]));
             $item->setQuantidade(1.000);
 
-            array_push($listaItens, $item);
+            array_push($listaItens, serialize($item));
             session_set("listaItens", $listaItens);
 
             $render = $this->renderView("/entrada/_includes/table-itens-entrada", [
                 "listaItens" => $listaItens,
                 "index" => 1
             ]);
+
             $this->responseJson(false, "Deu certo!", "alert-info", $render);
         } catch (Exception $e) {
             $this->responseJson(true, "Não deu certo!", "alert-danger", $render);

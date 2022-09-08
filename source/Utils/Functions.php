@@ -31,13 +31,16 @@ function redirect(string $urlRedirect): void
     }
     $link = MAIN_URL . $urlRedirect;
     header("location: {$link}");
+    exit;
 }
 
-
+function session() {
+    return (object) $_SESSION;
+}
 
 function session_set(string $key, $value): void
 {
-    $_SESSION[$key] = $value;
+    $_SESSION[$key] = (object) $value;
 }
 
 function session_get(string $key): ?mixed

@@ -3,6 +3,7 @@
 namespace Source\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Source\DAO\UsuarioDAO;
 
 /**
  * Description of ItemProduto
@@ -39,7 +40,7 @@ class ItemProduto {
     private float $quantidade;
 
     public function __construct() {
-        
+        $this->entrada = new Entrada();
     }
 
     public function getProduto(): Produto {
@@ -58,7 +59,7 @@ class ItemProduto {
         $this->produto = $produto;
     }
 
-    public function setEntrada(Entrada $entrada): void {
+    public function setEntrada(?Entrada $entrada): void {
         $this->entrada = $entrada;
     }
 
