@@ -7,6 +7,7 @@ use Source\DAO\ProdutoDAO;
 use Source\Entity\ItemProduto;
 use Source\Entity\Produto;
 
+
 /**
  * Description of EntradaController
  *
@@ -19,7 +20,6 @@ class EntradaController extends Controller
     {
         parent::__construct(__DIR__ . "/../../public");
         $this->verificaUsuarioAutenticado();
-        // var_dump(session());
     }
 
     public function paginaEntrada(array $data): void
@@ -33,7 +33,7 @@ class EntradaController extends Controller
     public function paginaNovaEntrada(array $data): void
     {
         try {
-            if (isset(session()->listaItens)) {
+            if (session_get("listaItens") != null) {
                 session_remove("listaItens");
             }
             $listaProdutos = ProdutoDAO::listarProdutos();
@@ -48,14 +48,14 @@ class EntradaController extends Controller
     public function addItem(array $data): void
     {
         try {
-            $listaItens = [];
-            if (isset(session()->listaItens)) {
-                $listaItens = (array) session()->listaItens;
-            }
-
             $item = new ItemProduto();
             $item->setProduto($this->retornaProduto($data));
             $item->setQuantidade(1.000);
+
+            $listaItens = [];
+            if (session_get("listaItens") != null) {
+                $listaItens = session_get("listaItens");
+            }
 
             array_push($listaItens, serialize($item));
             session_set("listaItens", $listaItens);
@@ -91,15 +91,14 @@ class EntradaController extends Controller
     private function atualizaTabelaProdutos(): string
     {
         $listaItens = [];
-        if (isset(session()->listaItens)) {
-            $listaItens = (array) session()->listaItens;
+        if (session_get("listaItens") != null) {
+            $listaItens = session_get("listaItens");
         }
 
         $listaIds = [];
-        foreach ($listaItens as $i) {
-            var_dump($i);
-            $newItem = unserialize($i);
-            array_push($listaIds, $newItem->getProduto()->getId());
+        foreach ($listaItens as $obj) {
+            $item = unserialize($obj);
+            array_push($listaIds, $item->getProduto()->getId());
         }
         $ids = implode(",", $listaIds) != "" ? implode(",", $listaIds) : "0";
 
@@ -116,5 +115,31 @@ class EntradaController extends Controller
             "render" => $this->atualizaTabelaProdutos()
         ];
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function atualizarValores(array $data): void
+    {
+        $listaItens = [];
+        if (session_get("listaItens") != null) {
+            $listaItens = session_get("listaItens");
+        }
+
+        $novaListaItens = [];
+        foreach($listaItens as $item) {
+            $novoItem = unserialize($item);
+
+            $idProduto = $novoItem->getProduto()->getId();
+            $novoItem->setQuantidade(formataParaFloat($data[$idProduto."_quantidade"]));
+            $novoItem->getProduto()->setPrecoEntrada(formataParaFloat($data[$idProduto."_valor_unitario"]));
+
+            array_push($novaListaItens, serialize($novoItem));
+        }
+
+        $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
+            "listaItens" => $novaListaItens,
+            "index" => 1
+        ]);
+
+        $this->responseJson(false, "Valores recalculados com sucesso!", "alert-info", $tableItens);
     }
 }

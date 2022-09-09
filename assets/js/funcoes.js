@@ -60,3 +60,16 @@ function atualizaTabelaProdutos() {
         }
     })
 }
+
+function habilitaBotaoFinalizarEntrada() {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: `${MAIN_URL}/entrada/lista-itens`,
+        success: response => {
+            if (response.listaItens != null) {
+                $("#btnFinalizaEntrada").removeAttr("hidden");
+            }
+        }
+    })
+}

@@ -76,7 +76,7 @@ class Produto
     private UnidadeMedida $unidadeMedida;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\ManyToOne(targetEntity="Usuario", fetch="EAGER")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     private Usuario $usuario;

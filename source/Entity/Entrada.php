@@ -56,13 +56,13 @@ class Entrada {
     private DateTime $dataModificacao;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\ManyToOne(targetEntity="Usuario", fetch="EAGER")
      * @ORM\JoinColumn(name="usuario_id")
      */
     private Usuario $usuario;
 
     /**
-     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada") 
+     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", fetch="EAGER") 
      */
     private ArrayCollection $listaItemProdutos;
 

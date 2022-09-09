@@ -62,7 +62,7 @@ class ProdutoDAO extends GenericDAO
             $em->persist($produto);
             $em->flush();
         } catch (Exception $e) {
-            throw new Exception("Erro ao cadastrar o produto! " . $e->getMessage(), 500);
+            throw new Exception($e->getMessage(), 500);
         }
     }
 
@@ -71,7 +71,7 @@ class ProdutoDAO extends GenericDAO
         try {
             return EntityManagerFactory::getEntityManager()->find(Produto::class, $id);
         } catch (Exception $e) {
-            throw new Exception("Erro ao cadastrar o produto! " . $e->getMessage(), 500);
+            throw new Exception($e->getMessage(), 500);
         }
     }
 
@@ -81,7 +81,7 @@ class ProdutoDAO extends GenericDAO
             return EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
                 ->findOneBy(["codigoProduto" => $codigoProduto]);
         } catch (Exception $e) {
-            throw new Exception("Erro ao cadastrar o produto! " . $e->getMessage(), 500);
+            throw new Exception($e->getMessage(), 500);
         }
     }
 

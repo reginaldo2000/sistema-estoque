@@ -40,10 +40,10 @@ function session() {
 
 function session_set(string $key, $value): void
 {
-    $_SESSION[$key] = (object) $value;
+    $_SESSION[$key] = $value;
 }
 
-function session_get(string $key): ?mixed
+function session_get(string $key)
 {
     if (isset($_SESSION[$key])) {
         return $_SESSION[$key];

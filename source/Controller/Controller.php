@@ -16,6 +16,7 @@ abstract class Controller
 
     public function __construct(string $path)
     {
+
         $this->view = new Engine($path);
     }
 

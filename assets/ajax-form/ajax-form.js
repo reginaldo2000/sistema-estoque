@@ -25,6 +25,8 @@
                     return response.json();
                 }).then(dados => {
 
+                    console.log(dados);
+
                     const ajaxRender = form.getAttribute("ajax-render");
                     const ajaxCloseModal = form.getAttribute("ajax-close-modal");
                     const ajaxResetForm = form.getAttribute("ajax-reset-form");
@@ -53,6 +55,7 @@
                 }).catch(erro => {
                     ajaxFecharModalLoading(3000);
                     htmlMessageAlert(form.getAttribute("ajax-alert"), erro, "alert-danger");
+                    console.log(erro);
                 });
 
             }
