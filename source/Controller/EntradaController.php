@@ -48,14 +48,11 @@ class EntradaController extends Controller
     public function addItem(array $data): void
     {
         try {
+            $listaItens = $this->listaItens();
+
             $item = new ItemProduto();
             $item->setProduto($this->retornaProduto($data));
             $item->setQuantidade(1.000);
-
-            $listaItens = [];
-            if (session_get("listaItens") != null) {
-                $listaItens = session_get("listaItens");
-            }
 
             array_push($listaItens, serialize($item));
             session_set("listaItens", $listaItens);
@@ -119,21 +116,25 @@ class EntradaController extends Controller
 
     public function atualizarValores(array $data): void
     {
-        $listaItens = [];
-        if (session_get("listaItens") != null) {
-            $listaItens = session_get("listaItens");
-        }
+        $listaItens = $this->listaItens();
 
         $novaListaItens = [];
-        foreach($listaItens as $item) {
+        foreach ($listaItens as $item) {
             $novoItem = unserialize($item);
-
             $idProduto = $novoItem->getProduto()->getId();
-            $novoItem->setQuantidade(formataParaFloat($data[$idProduto."_quantidade"]));
-            $novoItem->getProduto()->setPrecoEntrada(formataParaFloat($data[$idProduto."_valor_unitario"]));
+
+            if ($data[$idProduto . "_quantidade"] == 0) {
+                $this->responseJson(true, "Quantidade deve ser maior que zero para o produto \"" . $novoItem->getProduto()->getNome() . "\"", "alert-danger");
+                return;
+            }
+
+            $novoItem->setQuantidade(formataParaFloat($data[$idProduto . "_quantidade"]));
+            $novoItem->getProduto()->setPrecoEntrada(formataParaFloat($data[$idProduto . "_valor_unitario"]));
 
             array_push($novaListaItens, serialize($novoItem));
         }
+
+        session_set("listaItens", $novaListaItens);
 
         $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
             "listaItens" => $novaListaItens,
@@ -141,5 +142,37 @@ class EntradaController extends Controller
         ]);
 
         $this->responseJson(false, "Valores recalculados com sucesso!", "alert-info", $tableItens);
+    }
+
+    public function removerItem(array $data): void
+    {
+        try {
+            $listaItens = $this->listaItens();
+            $index = $data["index"];
+
+            unset($listaItens[$index]);
+            
+            $listaItens = array_values($listaItens);
+
+            session_set("listaItens", $listaItens);
+
+            $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
+                "listaItens" => $listaItens,
+                "index" => 1
+            ]);
+
+            $this->responseJson(false, "Item removido da lista!", "alert-info", $tableItens);
+        } catch (Exception $e) {
+            $this->responseJson(false, "Erro ao remover o item!", "alert-danger");
+        }
+    }
+
+    private function listaItens(): array
+    {
+        $listaItens = [];
+        if (session_get("listaItens") != null) {
+            $listaItens = session_get("listaItens");
+        }
+        return $listaItens;
     }
 }

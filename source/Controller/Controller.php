@@ -35,8 +35,7 @@ abstract class Controller
             "messageType" => $messageType,
             "render" => $render
         ];
-        echo json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS);
-        return;
+        echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
     public function responseView(string $path, array $params): void

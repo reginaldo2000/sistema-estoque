@@ -61,15 +61,18 @@ function atualizaTabelaProdutos() {
     })
 }
 
-function habilitaBotaoFinalizarEntrada() {
+function removerItemEntrada(index) {
     $.ajax({
-        type: "GET",
+        type: "DELETE",
         dataType: "JSON",
-        url: `${MAIN_URL}/entrada/lista-itens`,
+        url: `${MAIN_URL}/entrada/remover-item/${index}`,
         success: response => {
-            if (response.listaItens != null) {
-                $("#btnFinalizaEntrada").removeAttr("hidden");
-            }
+            $("#tableItens").html(response.render);
+            htmlMessageAlert("#alerta", response.message, response.messageType);
+        },
+        error: ex => {
+            console.log(ex);
+            htmlMessageAlert("#alerta", ex, "alert-danger");
         }
     })
 }

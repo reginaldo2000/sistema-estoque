@@ -39,7 +39,7 @@ class ProdutoDAO extends GenericDAO
         }
     }
 
-    public static function listarProdutosByIds(string $ids = ""): ?array
+    public static function listarProdutosByIds(string $ids): ?array
     {
         try {
             $queryBuilder = EntityManagerFactory::getEntityManager()->getRepository(Produto::class)

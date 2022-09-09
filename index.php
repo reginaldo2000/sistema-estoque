@@ -37,7 +37,8 @@ $route->get("/lista", "EntradaController:paginaEntrada");
 $route->get("/nova", "EntradaController:paginaNovaEntrada");
 $route->post("/add-item", "EntradaController:addItem");
 $route->post("/atualizar-valores", "EntradaController:atualizarValores");
-$route->get("/atualizar-valores", "EntradaController:atualizarValores");
+$route->get("/atualiza-tabela-produtos", "EntradaController:tabelaProdutos");
+$route->delete("/remover-item/{index}", "EntradaController:removerItem");
 
 
 $route->namespace("Source\Controller")->group("categoria");
