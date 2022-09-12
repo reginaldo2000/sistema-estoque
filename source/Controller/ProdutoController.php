@@ -65,7 +65,7 @@ class ProdutoController extends Controller
             if (empty($unidadeMedida)) {
                 redirect("/oops/400");
             }
-            $usuario = UsuarioDAO::getUsuarioById(session()->usuario->getId());
+            $usuario = UsuarioDAO::getUsuarioById($this->session->get("usuario")->getId());
             if (empty($usuario)) {
                 throw new Exception("Usuário não informado", 400);
             }

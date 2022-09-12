@@ -34,49 +34,52 @@ function redirect(string $urlRedirect): void
     exit;
 }
 
-function session() {
-    return (object) $_SESSION;
-}
-
 function session_set(string $key, $value): void
 {
-    $_SESSION[$key] = $value;
+    $session = new \Source\Utils\Session();
+    $session->set($key, $value);
 }
 
 function session_get(string $key)
 {
-    if (isset($_SESSION[$key])) {
-        return $_SESSION[$key];
-    }
-    return null;
+    $session = new \Source\Utils\Session();
+    return $session->get($key);
 }
 
 function session_remove(string $key): void
 {
-    unset($_SESSION[$key]);
+    $session = new \Source\Utils\Session();
+    $session->remove($key);
 }
 
 function setMessage(string $message, string $type): void
 {
-    $_SESSION["msg_dialog"] = $message;
-    $_SESSION["type_dialog"] = $type;
+    $session = new \Source\Utils\Session();
+    $session->set("msg_dialog", $message);
+    $session->set("type_dialog", $type);
 }
 
 function showMessage(): void
 {
-    if (isset($_SESSION["msg_dialog"])) {
-        echo '<div class="alert ' . $_SESSION["type_dialog"] . ' alert-dismissible fade show" role="alert">
-            ' . $_SESSION["msg_dialog"] . '
+    $session = new \Source\Utils\Session();
+    if ($session->has("msg_dialog")) {
+        echo '<div class="alert ' . $session->get("type_dialog") . ' alert-dismissible fade show" role="alert">
+            ' . $session->get("msg_dialog") . '
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
 
-        unset($_SESSION["msg_dialog"]);
+        $session->remove("msg_dialog");
     }
 }
 
 function formataMoeda(float $valor): string
 {
     return number_format($valor, 2, ",", ".");
+}
+
+function formataDecimal(float $valor, int $decimal = 1): string
+{
+    return number_format($valor, $decimal, ",", ".");
 }
 
 function formataParaFloat(string $valor): float

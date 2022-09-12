@@ -1,13 +1,12 @@
 <?php if (!empty($listaItens)) : ?>
-    <?php foreach ($listaItens as $obj) : ?>
-        <?php $item = unserialize($obj); ?>
+    <?php foreach ($listaItens as $item) : ?>
         <tr class="align-middle">
             <td class="text-center"><?= $index++; ?></td>
             <td class="text-uppercase"><?= $item->getProduto()->getCodigoProduto(); ?></td>
             <td><?= $item->getProduto()->getNome(); ?></td>
             <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_quantidade"; ?>" value="<?= $item->getQuantidade(); ?>"></td>
-            <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_unitario"; ?>" value="<?= formataMoeda($item->getProduto()->getPrecoEntrada()); ?>" onkeyup="formataMoeda(this);"></td>
-            <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_total"; ?>" value="<?= formataMoeda($item->getProduto()->getPrecoEntrada() * $item->getQuantidade()); ?>" onkeydown="return false;"></td>
+            <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_unitario"; ?>" value="<?= formataMoeda($item->getValorUnitario()); ?>" onkeyup="formataMoeda(this);"></td>
+            <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_total"; ?>" value="<?= formataMoeda($item->getValorTotal()); ?>" onkeydown="return false;"></td>
             <td class="text-center">
                 <a class="btn btn-danger" onclick="removerItemEntrada(<?= ($index - 2); ?>);">
                     <i class="fa fa-trash"></i>

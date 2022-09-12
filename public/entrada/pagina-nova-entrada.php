@@ -1,10 +1,13 @@
 <?php $this->layout("_theme", ["nomePagina" => "Cadastrar Entrada"]); ?>
 <?php include __DIR__ . "/_includes/modal-add-item.php"; ?>
+<?php include __DIR__ . "/_includes/modal-finaliza-entrada.php"; ?>
 
 <div id="alerta" class="alert alert-warning alert-dismissible fade show" role="alert" hidden>
     <span></span>
     <button type="button" class="btn-close" aria-label="Close"></button>
 </div>
+
+<?php showMessage(); ?>
 
 <div class="card">
 
@@ -37,7 +40,7 @@
 
     <div class="card-body">
 
-        <form method="POST" action="<?= url("/entrada/atualizar-valores"); ?>" class="form-ajax" autocomplete="off" ajax-alert="#alerta" ajax-render="#tableItens">
+        <form method="POST" action="<?= url("/entrada/atualizar-valores"); ?>" id="formCalcularValores" class="form-ajax" autocomplete="off" ajax-alert="#alerta" ajax-render="#tableItens">
 
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
@@ -66,6 +69,6 @@
 
 </div>
 
-<button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" hidden>
+<button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada" hidden>
     Finalizar Entrada
 </button>

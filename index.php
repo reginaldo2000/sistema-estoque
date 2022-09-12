@@ -1,10 +1,11 @@
 <?php
 
-
-
 require __DIR__."/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
+use Source\Utils\Session;
+
+$session = new Session();
 
 $route = new Router(MAIN_URL);
 
@@ -23,6 +24,7 @@ $route->delete("/excluir", "UsuarioController:excluirUsuario");
 
 $route->namespace("Source\Controller")->group("produto");
 $route->get("/lista", "ProdutoController:paginaProdutos");
+$route->get("/lista/{pagina}", "ProdutoController:paginaProdutos");
 $route->get("/novo", "ProdutoController:paginaNovoProduto");
 $route->post("/salvar", "ProdutoController:salvar");
 $route->get("/editar/{id}", "ProdutoController:paginaEditarProduto");
@@ -39,6 +41,9 @@ $route->post("/add-item", "EntradaController:addItem");
 $route->post("/atualizar-valores", "EntradaController:atualizarValores");
 $route->get("/atualiza-tabela-produtos", "EntradaController:tabelaProdutos");
 $route->delete("/remover-item/{index}", "EntradaController:removerItem");
+$route->post("/finalizar", "EntradaController:finalizar");
+
+$route->get("/teste", "EntradaController:teste");
 
 
 $route->namespace("Source\Controller")->group("categoria");

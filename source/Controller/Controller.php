@@ -3,6 +3,7 @@
 namespace Source\Controller;
 
 use League\Plates\Engine;
+use Source\Utils\Session;
 
 /**
  * Description of Controller
@@ -14,9 +15,11 @@ abstract class Controller
 
     private Engine $view;
 
+    protected Session $session;
+
     public function __construct(string $path)
     {
-
+        $this->session = new Session();
         $this->view = new Engine($path);
     }
 
@@ -50,7 +53,7 @@ abstract class Controller
 
     public function verificaUsuarioAutenticado(): void
     {
-        if (!isset(session()->usuario)) {
+        if (!$this->session->has("usuario")) {
             redirect("/");
         }
     }

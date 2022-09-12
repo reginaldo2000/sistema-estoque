@@ -3,7 +3,6 @@
 namespace Source\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Source\DAO\UsuarioDAO;
 
 /**
  * Description of ItemProduto
@@ -15,7 +14,8 @@ use Source\DAO\UsuarioDAO;
  * @ORM\Entity
  * @ORM\Table(name="item_produtos")
  */
-class ItemProduto {
+class ItemProduto
+{
 
     /**
      * @ORM\Id
@@ -23,48 +23,85 @@ class ItemProduto {
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;
-    
+
     /**
      * @ORM\ManyToOne
      */
     private Produto $produto;
 
     /**
-     * @ORM\ManyToOne
+     * @ORM\ManyToOne(targetEntity="Entrada", inversedBy="listaItemProdutos")
+     * @ORM\JoinColumn(name="entrada_id", referencedColumnName="id")
      */
     private Entrada $entrada;
-    
+
     /**
      * @ORM\Column(type="decimal", scale=3)
      */
     private float $quantidade;
 
-    public function __construct() {
-        $this->entrada = new Entrada();
+    /**
+     * @ORM\Column(name="valor_unitario", type="decimal", scale=2)
+     */
+    private float $valorUnitario;
+
+    /**
+     * @ORM\Column(name="valor_total", type="decimal", scale=2)
+     */
+    private float $valorTotal;
+
+    public function __construct()
+    {
+        // $this->entrada = new Entrada();
     }
 
-    public function getProduto(): Produto {
+    public function getProduto(): Produto
+    {
         return $this->produto;
     }
 
-    public function getEntrada(): Entrada {
+    public function getEntrada(): Entrada
+    {
         return $this->entrada;
     }
 
-    public function getQuantidade(): float {
+    public function getQuantidade(): float
+    {
         return $this->quantidade;
     }
 
-    public function setProduto(Produto $produto): void {
+    public function setProduto(Produto $produto): void
+    {
         $this->produto = $produto;
     }
 
-    public function setEntrada(?Entrada $entrada): void {
+    public function setEntrada(?Entrada $entrada): void
+    {
         $this->entrada = $entrada;
     }
 
-    public function setQuantidade(float $quantidade): void {
+    public function setQuantidade(float $quantidade): void
+    {
         $this->quantidade = $quantidade;
     }
 
+    public function getValorUnitario(): float
+    {
+        return $this->valorUnitario;
+    }
+
+    public function setValorUnitario(float $valorUnitario): void
+    {
+        $this->valorUnitario = $valorUnitario;
+    }
+
+    public function getValorTotal(): float
+    {
+        return $this->valorTotal;
+    }
+
+    public function setValorTotal(float $valorTotal): void
+    {
+        $this->valorTotal = $valorTotal;
+    }
 }

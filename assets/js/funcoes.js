@@ -76,3 +76,15 @@ function removerItemEntrada(index) {
         }
     })
 }
+
+$("#formCalcularValores").on("submit", () => {
+    let listaItens = $("#tableItens tr td").html();
+    if(listaItens == "Nenhum item adicionado!") {
+        return false;
+    }
+    $("#btnFinalizaEntrada").removeAttr("hidden");
+});
+
+$(document).on("keypress", () => {
+    $("#btnFinalizaEntrada").attr("hidden", true);
+});

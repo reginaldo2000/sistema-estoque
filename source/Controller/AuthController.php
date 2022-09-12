@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function paginaLogin(): void
     {
-        if (isset(session()->usuario)) {
+        if ($this->session->has("usuario")) {
             redirect("/dashboard");
         }
         $this->responseView("login/pagina-login", []);
@@ -35,7 +35,7 @@ class AuthController extends Controller
                 setMessage("Usuário ou senha incorretos!", "alert-warning");
                 redirect("/");
             }
-            session_set("usuario", $usuarioObj);
+            $this->session->set("usuario", $usuarioObj);
             $this->boot();
             redirect("/dashboard");
         } catch (Exception $e) {
