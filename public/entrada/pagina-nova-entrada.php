@@ -72,3 +72,9 @@
 <button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada" hidden>
     Finalizar Entrada
 </button>
+
+<form method="POST" action="" class="">
+    <button type="submit" class="btn btn-primary mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada">
+        Salvar e Continuar
+    </button>
+</form>

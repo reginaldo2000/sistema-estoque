@@ -4,6 +4,7 @@ namespace Source\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,7 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="entradas")
  */
-class Entrada {
+class Entrada
+{
 
     /**
      * @ORM\Id
@@ -64,84 +66,102 @@ class Entrada {
     /**
      * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", fetch="EAGER", cascade={"persist"}) 
      */
-    private $listaItemProdutos;
+    private Collection $listaItemProdutos;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->listaItemProdutos = new ArrayCollection();
         $this->dataCriacao = new DateTime();
         $this->dataModificacao = new DateTime();
     }
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getDescricao(): string {
+    public function getDescricao(): string
+    {
         return $this->descricao;
     }
 
-    public function getCodigoNota(): string {
+    public function getCodigoNota(): string
+    {
         return $this->codigoNota;
     }
 
-    public function getValorTotal(): float {
+    public function getValorTotal(): float
+    {
         return $this->valorTotal;
     }
 
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         return $this->status;
     }
 
-    public function getDataCriacao(): DateTime {
+    public function getDataCriacao(): DateTime
+    {
         return $this->dataCriacao;
     }
 
-    public function getDataModificacao(): DateTime {
+    public function getDataModificacao(): DateTime
+    {
         return $this->dataModificacao;
     }
 
-    public function getUsuario(): Usuario {
+    public function getUsuario(): Usuario
+    {
         return $this->usuario;
     }
 
-    public function getListaItemProdutos() {
+    public function getListaItemProdutos(): ?ArrayCollection
+    {
         return $this->listaItemProdutos;
     }
 
-    public function setId(?int $id): void {
+    public function setId(?int $id): void
+    {
         $this->id = $id;
     }
 
-    public function setDescricao(string $descricao): void {
+    public function setDescricao(string $descricao): void
+    {
         $this->descricao = $descricao;
     }
 
-    public function setCodigoNota(string $codigoNota): void {
+    public function setCodigoNota(string $codigoNota): void
+    {
         $this->codigoNota = $codigoNota;
     }
 
-    public function setValorTotal(float $valorTotal): void {
+    public function setValorTotal(float $valorTotal): void
+    {
         $this->valorTotal = $valorTotal;
     }
 
-    public function setStatus(string $status): void {
+    public function setStatus(string $status): void
+    {
         $this->status = $status;
     }
 
-    public function setDataCriacao(DateTime $dataCriacao): void {
+    public function setDataCriacao(DateTime $dataCriacao): void
+    {
         $this->dataCriacao = $dataCriacao;
     }
 
-    public function setDataModificacao(DateTime $dataModificacao): void {
+    public function setDataModificacao(DateTime $dataModificacao): void
+    {
         $this->dataModificacao = $dataModificacao;
     }
 
-    public function setUsuario(Usuario $usuario): void {
+    public function setUsuario(Usuario $usuario): void
+    {
         $this->usuario = $usuario;
     }
 
-    public function setListaItemProdutos($listaItemProdutos): void {
+    public function setListaItemProdutos(ArrayCollection $listaItemProdutos): void
+    {
         $this->listaItemProdutos = $listaItemProdutos;
     }
-
 }

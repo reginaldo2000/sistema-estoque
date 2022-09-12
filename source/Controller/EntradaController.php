@@ -186,19 +186,32 @@ class EntradaController extends Controller
     public function finalizar(array $data): void
     {
         try {
+            $listaItens = $this->listaItens();
+            if(empty($listaItens)) {
+                setMessage("Lista vazia!!!", "alert-warning");
+                redirect("/entrada/nova");
+            }
             $usuarioLogado = $this->session->get("usuario");
 
             $entrada = new Entrada();
             $entrada->setDescricao($data["descricao"]);
             $entrada->setCodigoNota($data["codigo_nota"]);
             $entrada->setUsuario(UsuarioDAO::getUsuarioById($usuarioLogado->getId()));
+            $entrada->setStatus("FINALIZADA");
 
             foreach ($this->session->get("listaItens") as $item) {
                 $itemProduto = $item;
-                $itemProduto->setProduto(ProdutoDAO::get($item->getProduto()->getId()));
+
+                $produto = ProdutoDAO::get($item->getProduto()->getId());
+
+                $itemProduto->setProduto($produto);
                 $itemProduto->setEntrada($entrada);
                 $entrada->getListaItemProdutos()->add($itemProduto);
                 $entrada->setValorTotal($entrada->getValorTotal() + $item->getValorTotal());
+
+                $novoPreco = ($produto->getPrecoEntrada() > $itemProduto->getValorUnitario() ? $produto->getPrecoEntrada() : $itemProduto->getValorUnitario());
+                $produto->setPrecoEntrada($novoPreco);
+                ProdutoDAO::atualizar($produto);
             }
             EntradaDAO::salvar($entrada);
             setMessage("Entrada finalizada com sucesso!", "alert-success");
@@ -210,6 +223,6 @@ class EntradaController extends Controller
 
     public function teste(): void
     {
-        $this->finalizar([]);
+        // $this->finalizar();
     }
 }
