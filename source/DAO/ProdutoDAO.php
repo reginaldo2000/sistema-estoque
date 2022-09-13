@@ -15,7 +15,7 @@ class ProdutoDAO extends GenericDAO
     {
     }
 
-    public static function listarProdutos(string $nome = "", Paginacao $paginacao = null): ?array
+    public static function listarProdutos(string $nome = ""): ?array
     {
         try {
             $queryBuilder = EntityManagerFactory::getEntityManager()->getRepository(Produto::class)
@@ -26,13 +26,6 @@ class ProdutoDAO extends GenericDAO
                 ->setParameter("status", "EXCLUIDO")
                 ->orderBy("p.nome")->getQuery();
 
-            if ($paginacao != null) {
-                $paginator = new Paginator($query);
-                self::setMaxRow(count($paginator));
-
-                $inicio = ($paginacao->getPagina() - 1) * $paginacao->getNumeroLinhas();
-                $query->setFirstResult($inicio)->setMaxResults($paginacao->getNumeroLinhas());
-            }
             return $query->getResult();
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 500);

@@ -25,17 +25,12 @@ class ProdutoController extends Controller
 
         $nomeProduto = $params["pesquisa"] ?? "";
 
-        $paginacao = new Paginacao(url("/produto/lista"), $params, $pagina);
-
-        $listaProdutos = ProdutoDAO::listarProdutos($nomeProduto, $paginacao);
-
-        $paginacao->setTotalResultados(CategoriaDAO::getMaxRow());
+        $listaProdutos = ProdutoDAO::listarProdutos($nomeProduto);
 
         $this->responseView("produto/pagina-produto", [
             "nomePagina" => "Lista de Produtos",
             "listaProdutos" => $listaProdutos,
-            "pesquisa" => $nomeProduto,
-            "paginacao" => $paginacao
+            "pesquisa" => $nomeProduto
         ]);
     }
 

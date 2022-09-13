@@ -27,7 +27,7 @@
         </div>
     </form>
 </div>
-<table class="table table-bordered table-striped table-hover mt-3">
+<table class="table table-bordered table-striped table-hover mt-3" pagination="true" target="#tableCategorias" max-rows="<?= count($listaCategorias); ?>" rows="5">
     <thead>
         <tr>
             <th class="text-center text-uppercase">status</th>
@@ -41,6 +41,6 @@
     </tbody>
 </table>
 
-<div class="paginacao">
-    <?php include __DIR__ . "/../_paginacao.php"; ?>
-</div>
+<nav aria-label="Page navigation example" style="width: 100%;display:flex;justify-content: center;">
+    <ul class="pagination"></ul>
+</nav>

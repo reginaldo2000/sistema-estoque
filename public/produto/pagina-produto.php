@@ -32,7 +32,7 @@
 </div>
 
 <div class="table-responsive mt-3">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" pagination="true" target="#tableProdutos" max-rows="<?= count($listaProdutos); ?>" rows="5">
         <thead>
             <tr>
                 <th class="text-center text-uppercase">status</th>
@@ -49,9 +49,9 @@
     </table>
 </div>
 
-<div class="paginacao">
-    <?php include __DIR__ . "/../_paginacao.php"; ?>
-</div>
+<nav aria-label="Page navigation example" style="width: 100%;display:flex;justify-content: center;">
+    <ul class="pagination"></ul>
+</nav>
 
 <?php $this->start("scripts"); ?>
 <script src="<?= asset("/js/funcoes.js"); ?>"></script>
