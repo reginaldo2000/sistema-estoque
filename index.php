@@ -14,6 +14,7 @@ $route->get("/", "AuthController:paginaLogin");
 $route->get("/sair", "AuthController:sair");
 $route->get("/dashboard", "HomeController:paginaInicial");
 
+
 $route->namespace("Source\Controller")->group("usuario");
 $route->get("/lista", "UsuarioController:paginaUsuario");
 $route->get("/dados-usuario/{id}", "UsuarioController:getDadosUsuario");
@@ -52,7 +53,6 @@ $route->get("/lista/{pagina}", "CategoriaController:paginaCategoria");
 $route->post("/salvar", "CategoriaController:salvar");
 $route->get("/dados-categoria/{id}", "CategoriaController:getCategoria");
 $route->post("/excluir", "CategoriaController:excluir");
-
 
 
 /**

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?= asset("/font-awesome-4.7.0/css/font-awesome.min.css"); ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<?= asset("/smartpaginator/smartpaginator.css"); ?>">
 </head>
 
 <body class="fundo_app">
@@ -71,7 +72,7 @@
     <script src="<?= asset("/js/main.js"); ?>"></script>
     <script src="<?= asset("/ajax-form/ajax-form.js"); ?>"></script>
     <script src="<?= asset("/js/funcoes.js"); ?>"></script>
-    
+    <script src="<?= asset("/js/table-pagination.js"); ?>"></script>
     <?= $this->section("scripts"); ?>
 </body>
 

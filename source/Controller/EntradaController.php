@@ -29,7 +29,11 @@ class EntradaController extends Controller
     public function paginaEntrada(array $data): void
     {
         try {
-            $this->responseView("entrada/pagina-entrada", []);
+            $listaEntradas = EntradaDAO::listar();
+            $this->responseView("entrada/pagina-entrada", [
+                "listaEntradas" => $listaEntradas,
+                "maxRows" => EntradaDAO::getMaxRow()
+            ]);
         } catch (Exception $e) {
         }
     }

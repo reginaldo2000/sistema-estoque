@@ -21,46 +21,50 @@
     </form>
 </div>
 
-<table class="table table-bordered table-striped table-hover mt-3">
+
+<table class="table table-bordered table-striped table-hover mt-3" id="tableEntrada" pagination="true" max-rows="<?= $maxRows; ?>" rows="5">
     <thead>
         <tr>
-            <th class="text-center text-uppercase">descrição</th>
             <th class="text-center text-uppercase">código</th>
+            <th class="text-center text-uppercase">descrição</th>
             <th class="text-center text-uppercase">total</th>
+            <th class="text-center text-uppercase">status</th>
             <th class="text-center text-uppercase">data</th>
-            <th class="text-center text-uppercase">ações</th>
+            <th class="text-center text-uppercase" colspan="3">ações</th>
         </tr>
     </thead>
-    <tbody>
-        <?php if (!empty($listaEntradas)) : ?>
-            <?php foreach ($listaEntradas as $entrada) : ?>
-                <tr>
-                    <td><?= $entrada->getDescricao(); ?></td>
-                    <td><?= $entrada->getCodigoNota(); ?></td>
-                    <td><?= $entrada->getValorTotal(); ?></td>
-                    <td><?= $entrada->getDataCriacao(); ?></td>
-                    <td><?= $entrada->getStatus(); ?></td>
-                    <td>
-                        <a class="text-dark">
-                            <i class="material-icons">visibility</i>
-                        </a>
-                    </td>
-                    <td>
-                        <a class="text-dark">
-                            <i class="material-icons">edit</i>
-                        </a>
-                    </td>
-                    <td>
-                        <a class="text-danger">
-                            <i class="material-icons">delete</i>
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <tr>
-                <td colspan="8">Nenhuma entrada encontrada!</td>
+    <?php if (!empty($listaEntradas)) : ?>
+        <?php foreach ($listaEntradas as $entrada) : ?>
+            <tr class="align-middle">
+                <td><?= $entrada->getCodigoNota(); ?></td>
+                <td><?= $entrada->getDescricao(); ?></td>
+                <td><?= formataMoeda($entrada->getValorTotal()); ?></td>
+                <td><?= $entrada->getStatus(); ?></td>
+                <td><?= $entrada->getDataCriacao()->format("d/m/Y"); ?></td>
+                <td class="text-center">
+                    <a class="text-dark">
+                        <i class="material-icons">visibility</i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a class="text-dark">
+                        <i class="material-icons">edit</i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a class="text-danger">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
             </tr>
-        <?php endif; ?>
-    </tbody>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <tr>
+            <td colspan="8">Nenhuma entrada encontrada!</td>
+        </tr>
+    <?php endif; ?>
 </table>
+
+<nav aria-label="Page navigation example" style="width: 100%;display:flex;justify-content: center;">
+    <ul class="pagination"></ul>
+</nav>
