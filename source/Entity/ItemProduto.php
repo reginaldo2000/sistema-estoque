@@ -104,4 +104,14 @@ class ItemProduto
     {
         $this->valorTotal = $valorTotal;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 }
