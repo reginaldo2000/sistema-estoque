@@ -9,7 +9,6 @@ $(document).ready(() => {
         const rows = document.querySelectorAll(`${tableId} tr`);
         rows.forEach(row => {
             row.setAttribute("hidden", true);
-            console.log(row);
             if (cont <= rowsPage) {
                 row.removeAttribute("hidden");
             }

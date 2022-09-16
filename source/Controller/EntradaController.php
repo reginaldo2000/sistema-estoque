@@ -10,7 +10,7 @@ use Source\DAO\UsuarioDAO;
 use Source\Entity\Entrada;
 use Source\Entity\ItemProduto;
 use Source\Entity\Produto;
-
+use Source\Exception\InternalErrorException;
 
 /**
  * Description of EntradaController
@@ -41,15 +41,25 @@ class EntradaController extends Controller
     public function paginaNovaEntrada(array $data): void
     {
         try {
-            if ($this->session->get("listaItens") != null) {
+            $listaItens = [];
+            if ($this->session->has("listaItens") && !isset($data["id"])) {
                 $this->session->remove("listaItens");
+            }
+            if(isset($data["id"])) {
+                $entrada = EntradaDAO::get($data["id"]);
+                $listaItens = $entrada->getListaItemProdutos();
+                // var_dump($listaItens);
+                // exit;
+                $this->session->set("listaItens", $listaItens);
             }
             $listaProdutos = ProdutoDAO::listarProdutos();
             $this->responseView("entrada/pagina-nova-entrada", [
                 "listaProdutos" => $listaProdutos,
-                "listaItens" => []
+                "listaItens" => $listaItens,
+                "index" => 1
             ]);
         } catch (Exception $e) {
+            redirect("/oops/500");
         }
     }
 
@@ -191,7 +201,7 @@ class EntradaController extends Controller
     {
         try {
             $listaItens = $this->listaItens();
-            if(empty($listaItens)) {
+            if (empty($listaItens)) {
                 setMessage("Lista vazia!!!", "alert-warning");
                 redirect("/entrada/nova");
             }
@@ -201,7 +211,7 @@ class EntradaController extends Controller
             $entrada->setDescricao($data["descricao"]);
             $entrada->setCodigoNota($data["codigo_nota"]);
             $entrada->setUsuario(UsuarioDAO::getUsuarioById($usuarioLogado->getId()));
-            $entrada->setStatus("FINALIZADA");
+            $entrada->setStatus($data["status"]);
 
             foreach ($this->session->get("listaItens") as $item) {
                 $itemProduto = $item;
@@ -215,13 +225,33 @@ class EntradaController extends Controller
 
                 $novoPreco = ($produto->getPrecoEntrada() > $itemProduto->getValorUnitario() ? $produto->getPrecoEntrada() : $itemProduto->getValorUnitario());
                 $produto->setPrecoEntrada($novoPreco);
+                $produto->setEstoque($itemProduto->getQuantidade() + $produto->getEstoque());
                 ProdutoDAO::atualizar($produto);
             }
             EntradaDAO::salvar($entrada);
-            setMessage("Entrada finalizada com sucesso!", "alert-success");
+            $mensagem = ($entrada->getStatus() == "FINALIZADA" ? "Entrada finalizada com sucesso!" : "Entrada salva com sucesso!");
+            setMessage($mensagem, "alert-success");
             redirect("/entrada/nova");
         } catch (Exception $e) {
             redirect("/oops/{$e->getCode()}");
+        }
+    }
+
+    public function visualizar(array $data): void
+    {
+        try {
+            $entradaId = $data["id"];
+            $entrada = EntradaDAO::get($entradaId);
+
+            $render = $this->renderView("entrada/_includes/dados-entrada", [
+                "entrada" => $entrada
+            ]);
+
+            $this->responseJson(false, "", "", $render);
+        } catch (InternalErrorException $e) {
+            $this->responseJson(true, $e->getMessage(), "alert-danger");
+        } catch (Exception $e) {
+            $this->responseJson(true, $e->getMessage(), "alert-warning");
         }
     }
 

@@ -1,6 +1,6 @@
 <?php if (!empty($listaProdutos)) : ?>
     <?php foreach ($listaProdutos as $prod) : ?>
-        <tr>
+        <tr class="align-middle">
             <td class="text-center align-middle">
                 <a class="<?= $prod->getStatus() == "ATIVO" ? "icon-ativo" : "icon-inativo"; ?>"></a>
             </td>

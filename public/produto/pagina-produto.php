@@ -32,7 +32,7 @@
 </div>
 
 <div class="table-responsive mt-3">
-    <table class="table table-bordered table-hover" pagination="true" target="#tableProdutos" max-rows="<?= count($listaProdutos); ?>" rows="5">
+    <table class="table table-bordered table-hover" pagination="true" target="#tableProdutos" max-rows="<?= count($listaProdutos); ?>" rows="10">
         <thead>
             <tr>
                 <th class="text-center text-uppercase">status</th>

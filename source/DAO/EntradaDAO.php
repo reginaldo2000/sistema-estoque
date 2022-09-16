@@ -45,4 +45,13 @@ class EntradaDAO extends GenericDAO
             throw new Exception($e->getMessage(), 500);
         }
     }
+
+    public static function get(int $id): ?Entrada
+    {
+        try {
+            return EntityManagerFactory::getEntityManager()->find(Entrada::class, $id);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 500);
+        }
+    }
 }

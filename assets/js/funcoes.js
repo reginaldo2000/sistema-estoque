@@ -77,6 +77,26 @@ function removerItemEntrada(index) {
     })
 }
 
+function visualizarEntrada(entradaId) {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: `${MAIN_URL}/entrada/visualizar/${entradaId}`,
+        beforeSend: () => {
+            ajaxAbrirModalLoading();
+        },
+        success: response => {
+            $("#dadosEntrada").html(response.render);
+            $("#modalVisualizarEntrada").modal("show");
+            ajaxFecharModalLoading(500);
+        },
+        error: ex => {
+            console.log(ex);
+            htmlMessageAlert("#alerta", ex, "alert-danger");
+        }
+    })
+}
+
 $("#formCalcularValores").on("submit", () => {
     let listaItens = $("#tableItens tr td").html();
     if (listaItens == "Nenhum item adicionado!") {

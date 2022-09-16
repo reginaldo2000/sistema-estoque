@@ -64,7 +64,7 @@ class Entrada
     private Usuario $usuario;
 
     /**
-     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", fetch="EAGER", cascade={"persist"}) 
+     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", fetch="LAZY", cascade={"all"}) 
      */
     private Collection $listaItemProdutos;
 
@@ -115,7 +115,7 @@ class Entrada
         return $this->usuario;
     }
 
-    public function getListaItemProdutos(): ?ArrayCollection
+    public function getListaItemProdutos(): ?Collection
     {
         return $this->listaItemProdutos;
     }
@@ -160,7 +160,7 @@ class Entrada
         $this->usuario = $usuario;
     }
 
-    public function setListaItemProdutos(ArrayCollection $listaItemProdutos): void
+    public function setListaItemProdutos(Collection $listaItemProdutos): void
     {
         $this->listaItemProdutos = $listaItemProdutos;
     }

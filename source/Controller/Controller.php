@@ -19,8 +19,9 @@ abstract class Controller
 
     public function __construct(string $path)
     {
-        $this->session = new Session();
+        
         $this->view = new Engine($path);
+        $this->session = new Session();
     }
 
     /**

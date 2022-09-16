@@ -38,11 +38,14 @@ $route->delete("/excluir", "ProdutoController:excluir");
 $route->namespace("Source\Controller")->group("entrada");
 $route->get("/lista", "EntradaController:paginaEntrada");
 $route->get("/nova", "EntradaController:paginaNovaEntrada");
+$route->get("/editar/{id}", "EntradaController:paginaNovaEntrada");
 $route->post("/add-item", "EntradaController:addItem");
 $route->post("/atualizar-valores", "EntradaController:atualizarValores");
 $route->get("/atualiza-tabela-produtos", "EntradaController:tabelaProdutos");
 $route->delete("/remover-item/{index}", "EntradaController:removerItem");
 $route->post("/finalizar", "EntradaController:finalizar");
+$route->post("/salvar-continuar/{descricao}/{codigo_nota}/{status}", "EntradaController:finalizar");
+$route->get("/visualizar/{id}", "EntradaController:visualizar");
 
 $route->get("/teste", "EntradaController:teste");
 

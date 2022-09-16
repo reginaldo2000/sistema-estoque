@@ -6,6 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="POST" action="<?= url("/entrada/finalizar"); ?>" class="needs-validation" novalidate>
+                <input type="hidden" name="status" value="FINALIZADA" readonly>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 mb-3">

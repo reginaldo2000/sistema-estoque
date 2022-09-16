@@ -69,12 +69,19 @@
 
 </div>
 
-<button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada" hidden>
-    Finalizar Entrada
-</button>
+<div class="row">
+    <div class="col-lg-12 d-flex">
 
-<form method="POST" action="" class="">
-    <button type="submit" class="btn btn-primary mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada">
-        Salvar e Continuar
-    </button>
-</form>
+        <button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada" hidden>
+            Finalizar Entrada
+        </button>
+
+        <div style="margin-left: 0.75rem;"></div>
+
+        <form method="POST" action="<?= url("/entrada/salvar-continuar/Entrada_em_edição/0000/EM_EDICAO"); ?>">
+            <button type="submit" class="btn btn-primary mt-3">
+                Salvar e Continuar
+            </button>
+        </form>
+    </div>
+</div>
