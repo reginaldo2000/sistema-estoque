@@ -64,8 +64,7 @@ class ProdutoController extends Controller
             if (empty($usuario)) {
                 throw new Exception("Usuário não informado", 400);
             }
-            $produto = new Produto();
-            $produto->setId((isset($data["id"]) ? $data["id"] : null));
+            $produto = (isset($data["id"]) ? ProdutoDAO::get($data["id"]) : new Produto()) ;
             $produto->setCategoria($categoria);
             $produto->setNome($data["nome"]);
             $produto->setCodigoProduto($data["codigo_produto"]);
@@ -81,7 +80,7 @@ class ProdutoController extends Controller
                 setMessage("Produto cadastrado com sucesso!", "alert-success");
                 redirect("/produto/novo");
             } else {
-                ProdutoDAO::atualizar($produto);
+                ProdutoDAO::atualizar($produto, $data["id"]);
                 setMessage("Produto atualizado com sucesso!", "alert-success");
                 redirect("/produto/editar/{$produto->getId()}");
             }

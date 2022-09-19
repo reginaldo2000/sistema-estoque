@@ -58,15 +58,15 @@ class Entrada
     private DateTime $dataModificacao;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Usuario", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumn(name="usuario_id")
      */
     private Usuario $usuario;
 
     /**
-     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", fetch="LAZY", cascade={"all"}) 
+     * @ORM\OneToMany(targetEntity="ItemProduto", mappedBy="entrada", cascade={"all"}) 
      */
-    private Collection $listaItemProdutos;
+    private ?Collection $listaItemProdutos;
 
     public function __construct()
     {

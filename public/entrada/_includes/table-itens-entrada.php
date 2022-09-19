@@ -1,4 +1,4 @@
-<?php if (!empty($listaItens)) : ?>
+<?php if ($listaItens->count() > 0) : ?>
     <?php foreach ($listaItens as $item) : ?>
         <tr class="align-middle">
             <td class="text-center"><?= $index++; ?></td>
@@ -8,7 +8,7 @@
             <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_unitario"; ?>" value="<?= formataMoeda($item->getValorUnitario()); ?>" onkeyup="formataMoeda(this);"></td>
             <td><input type="text" class="form-control" name="<?= $item->getProduto()->getId() . "_valor_total"; ?>" value="<?= formataMoeda($item->getValorTotal()); ?>" onkeydown="return false;"></td>
             <td class="text-center">
-                <a class="btn btn-danger" onclick="removerItemEntrada(<?= ($index - 2); ?>);">
+                <a class="btn btn-danger" onclick="removerItemEntrada(<?= $item->getId(); ?>);">
                     <i class="fa fa-trash"></i>
                 </a>
             </td>

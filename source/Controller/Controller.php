@@ -2,6 +2,7 @@
 
 namespace Source\Controller;
 
+use ArrayObject;
 use League\Plates\Engine;
 use Source\Utils\Session;
 
@@ -19,7 +20,7 @@ abstract class Controller
 
     public function __construct(string $path)
     {
-        
+
         $this->view = new Engine($path);
         $this->session = new Session();
     }
@@ -57,5 +58,14 @@ abstract class Controller
         if (!$this->session->has("usuario")) {
             redirect("/");
         }
+    }
+
+    public function getArrayObject(ArrayObject $lista): ArrayObject
+    {
+        $novaLista = new ArrayObject();
+        foreach ($lista as $obj) {
+            $novaLista->append($obj);
+        }
+        return $novaLista;
     }
 }

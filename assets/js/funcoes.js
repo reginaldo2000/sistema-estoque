@@ -35,6 +35,10 @@ function selecionarItemProduto(id) {
         beforeSend: () => {
         },
         success: (response) => {
+            if(response.error) {
+                htmlMessageAlert("#alertaInfo", response.message, "alert-danger");
+                return;
+            }
             $("#tableItens").html(response.render);
             $("#tableItemProduto").html(response.tableProdutos);
             htmlMessageAlert("#alertaInfo", response.message, "alert-info");
@@ -102,11 +106,11 @@ $("#formCalcularValores").on("submit", () => {
     if (listaItens == "Nenhum item adicionado!") {
         return false;
     }
-    $("#btnFinalizaEntrada").removeAttr("hidden");
+    $("#grupo-btn-entrada").removeAttr("hidden");
 });
 
 $(document).on("keypress", () => {
-    $("#btnFinalizaEntrada").attr("hidden", true);
+    $("#grupo-btn-entrada").attr("hidden", true);
 });
 
 

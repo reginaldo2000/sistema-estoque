@@ -8,6 +8,7 @@ use Source\DAO\BootDAO;
 use Source\DAO\UnidadeMedidaDAO;
 use Source\DAO\UsuarioDAO;
 use Source\Entity\UnidadeMedida;
+use Source\Entity\Usuario;
 
 class AuthController extends Controller
 {
@@ -19,6 +20,12 @@ class AuthController extends Controller
 
     public function paginaLogin(): void
     {
+        // $usuario = new Usuario();
+        // $usuario->setUsuario("admin");
+        // $usuario->setSenha(md5("admin"));
+        // $usuario->setNomeUsuario("Administrador");
+        // UsuarioDAO::salvar($usuario);
+        
         if ($this->session->has("usuario")) {
             redirect("/dashboard");
         }

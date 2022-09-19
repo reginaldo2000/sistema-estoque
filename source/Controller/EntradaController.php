@@ -2,9 +2,10 @@
 
 namespace Source\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use ArrayObject;
 use Exception;
 use Source\DAO\EntradaDAO;
+use Source\DAO\ItemEntradaDAO;
 use Source\DAO\ProdutoDAO;
 use Source\DAO\UsuarioDAO;
 use Source\Entity\Entrada;
@@ -31,35 +32,33 @@ class EntradaController extends Controller
         try {
             $listaEntradas = EntradaDAO::listar();
             $this->responseView("entrada/pagina-entrada", [
-                "listaEntradas" => $listaEntradas,
-                "maxRows" => EntradaDAO::getMaxRow()
+                "listaEntradas" => $listaEntradas
             ]);
         } catch (Exception $e) {
+            redirect("/oops/{$e->getCode()}");
         }
     }
 
     public function paginaNovaEntrada(array $data): void
     {
         try {
-            $listaItens = [];
-            if ($this->session->has("listaItens") && !isset($data["id"])) {
-                $this->session->remove("listaItens");
+            if (isset($data["id"])) {
+                $this->init($data["id"]);
             }
-            if(isset($data["id"])) {
-                $entrada = EntradaDAO::get($data["id"]);
-                $listaItens = $entrada->getListaItemProdutos();
-                // var_dump($listaItens);
-                // exit;
-                $this->session->set("listaItens", $listaItens);
+            if (!isset($data["id"]) && !$this->session->has("entradaKey")) {
+                $this->session->set("entradaKey", md5(date("U")));
             }
+            $listaItens = $this->listaItens();
+
             $listaProdutos = ProdutoDAO::listarProdutos();
             $this->responseView("entrada/pagina-nova-entrada", [
+                "nomePagina" => (isset($data["id"])?"Editar Entrada":"Nova Entrada"),
                 "listaProdutos" => $listaProdutos,
                 "listaItens" => $listaItens,
                 "index" => 1
             ]);
         } catch (Exception $e) {
-            redirect("/oops/500");
+            redirect("/oops/{$e->getCode()}");
         }
     }
 
@@ -74,9 +73,10 @@ class EntradaController extends Controller
             $item->setQuantidade(1.000);
             $item->setValorUnitario($produto->getPrecoEntrada());
             $item->setValorTotal($produto->getPrecoEntrada());
+            $item->setChave($this->session->get("entradaKey"));
+            ItemEntradaDAO::salvar($item);
 
-            array_push($listaItens, $item);
-            $this->session->set("listaItens", $listaItens);
+            $listaItens->append($item);
 
             $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
                 "listaItens" => $listaItens,
@@ -94,42 +94,33 @@ class EntradaController extends Controller
             ];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
-            $this->responseJson(true, "Não deu certo!" . $e->getMessage(), "alert-danger");
+            $this->responseJson(true, "Não deu certo!" . $e, "alert-danger");
         }
     }
 
-    private function retornaProduto(array $data): Produto
+    public function removerItem(array $data): void
     {
-        if (isset($data["produto_id"])) {
-            return ProdutoDAO::get($data["produto_id"]);
+        try {
+            $itemId = $data["index"];
+
+            ItemEntradaDAO::excluir($itemId);
+
+            $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
+                "listaItens" => $this->listaItens(),
+                "index" => 1
+            ]);
+
+            $this->responseJson(false, "Item removido da lista!", "alert-info", $tableItens);
+        } catch (Exception $e) {
+            $this->responseJson(false, "Erro ao remover o item!", "alert-danger");
         }
-        return ProdutoDAO::getByCodigo($data["produto_codigo"]);
-    }
-
-    private function atualizaTabelaProdutos(): string
-    {
-        $listaItens = [];
-        if ($this->session->has("listaItens")) {
-            $listaItens = $this->session->get("listaItens");
-        }
-
-        $listaIds = [];
-        foreach ($listaItens as $item) {
-            array_push($listaIds, $item->getProduto()->getId());
-        }
-        $ids = implode(",", $listaIds) != "" ? implode(",", $listaIds) : "0";
-
-        $tableProdutos = $this->renderView("/entrada/_includes/table-produtos", [
-            "listaProdutos" => ProdutoDAO::listarProdutosByIds($ids)
-        ]);
-
-        return $tableProdutos;
     }
 
     public function tabelaProdutos(): void
     {
+        $tableProdutos = $this->atualizaTabelaProdutos();
         $response = [
-            "render" => $this->atualizaTabelaProdutos()
+            "render" => $tableProdutos
         ];
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
@@ -138,7 +129,6 @@ class EntradaController extends Controller
     {
         $listaItens = $this->listaItens();
 
-        $novaListaItens = [];
         foreach ($listaItens as $item) {
             $novoItem = $item;
             $idProduto = $novoItem->getProduto()->getId();
@@ -152,54 +142,24 @@ class EntradaController extends Controller
             $novoItem->setValorUnitario(formataParaFloat($data[$idProduto . "_valor_unitario"]));
             $novoItem->setValorTotal(formataParaFloat($data[$idProduto . "_valor_unitario"]) * $novoItem->getQuantidade());
 
-            array_push($novaListaItens, $novoItem);
+            ItemEntradaDAO::atualizar($novoItem, $novoItem->getId());
         }
 
-        $this->session->set("listaItens", $novaListaItens);
-
         $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
-            "listaItens" => $novaListaItens,
+            "listaItens" => $this->listaItens(),
             "index" => 1
         ]);
 
         $this->responseJson(false, "Valores recalculados com sucesso!", "alert-info", $tableItens);
     }
 
-    public function removerItem(array $data): void
-    {
-        try {
-            $listaItens = $this->listaItens();
-            $index = $data["index"];
-
-            unset($listaItens[$index]);
-
-            $listaItens = array_values($listaItens);
-
-            $this->session->set("listaItens", $listaItens);
-
-            $tableItens = $this->renderView("/entrada/_includes/table-itens-entrada", [
-                "listaItens" => $listaItens,
-                "index" => 1
-            ]);
-
-            $this->responseJson(false, "Item removido da lista!", "alert-info", $tableItens);
-        } catch (Exception $e) {
-            $this->responseJson(false, "Erro ao remover o item!", "alert-danger");
-        }
-    }
-
-    private function listaItens(): array
-    {
-        $listaItens = [];
-        if ($this->session->has("listaItens")) {
-            $listaItens = $this->session->get("listaItens");
-        }
-        return $listaItens;
-    }
-
     public function finalizar(array $data): void
     {
         try {
+            if ($this->session->has("entradaId_" . $this->session->get("entradaKey"))) {
+                $this->editarEntrada($data);
+            }
+
             $listaItens = $this->listaItens();
             if (empty($listaItens)) {
                 setMessage("Lista vazia!!!", "alert-warning");
@@ -213,27 +173,23 @@ class EntradaController extends Controller
             $entrada->setUsuario(UsuarioDAO::getUsuarioById($usuarioLogado->getId()));
             $entrada->setStatus($data["status"]);
 
-            foreach ($this->session->get("listaItens") as $item) {
-                $itemProduto = $item;
-
-                $produto = ProdutoDAO::get($item->getProduto()->getId());
-
-                $itemProduto->setProduto($produto);
+            foreach ($listaItens as $itemProduto) {
                 $itemProduto->setEntrada($entrada);
                 $entrada->getListaItemProdutos()->add($itemProduto);
-                $entrada->setValorTotal($entrada->getValorTotal() + $item->getValorTotal());
+                $entrada->setValorTotal($entrada->getValorTotal() + $itemProduto->getValorTotal());
 
-                $novoPreco = ($produto->getPrecoEntrada() > $itemProduto->getValorUnitario() ? $produto->getPrecoEntrada() : $itemProduto->getValorUnitario());
-                $produto->setPrecoEntrada($novoPreco);
-                $produto->setEstoque($itemProduto->getQuantidade() + $produto->getEstoque());
-                ProdutoDAO::atualizar($produto);
+                if ($entrada->getStatus() == "FINALIZADA") {
+                    $this->atualizaDadosProduto($itemProduto);
+                }
             }
             EntradaDAO::salvar($entrada);
+            $this->session->remove("entradaKey");
             $mensagem = ($entrada->getStatus() == "FINALIZADA" ? "Entrada finalizada com sucesso!" : "Entrada salva com sucesso!");
             setMessage($mensagem, "alert-success");
             redirect("/entrada/nova");
         } catch (Exception $e) {
-            redirect("/oops/{$e->getCode()}");
+            echo $e;
+            // redirect("/oops/{$e->getCode()}");
         }
     }
 
@@ -255,8 +211,116 @@ class EntradaController extends Controller
         }
     }
 
+    private function init(int $entradaId): void
+    {
+        $entrada = EntradaDAO::get($entradaId);
+
+        foreach ($entrada->getListaItemProdutos() as $item) {
+            $this->session->set("entradaId_" . $item->getChave(), $entrada->getId());
+            $this->session->set("entradaKey", $item->getChave());
+            break;
+        }
+    }
+
+    private function listaItens(): ArrayObject
+    {
+        $listaItens = new ArrayObject();
+        if ($this->session->has("entradaKey")) {
+            $key = $this->session->get("entradaKey");
+            $listaItens = ItemEntradaDAO::listarItensEntradaTemp($key);
+        }
+        return $listaItens;
+    }
+
+    private function retornaProduto(array $data): Produto
+    {
+        if (isset($data["produto_id"])) {
+            return ProdutoDAO::get($data["produto_id"]);
+        }
+        return ProdutoDAO::getByCodigo($data["produto_codigo"]);
+    }
+
+    private function atualizaTabelaProdutos(): string
+    {
+        $listaItens = $this->listaItens();
+
+        $listaIds = [];
+        foreach ($listaItens as $item) {
+            array_push($listaIds, $item->getProduto()->getId());
+        }
+        $ids = implode(",", $listaIds) != "" ? implode(",", $listaIds) : "0";
+
+        $tableProdutos = $this->renderView("/entrada/_includes/table-produtos", [
+            "listaProdutos" => ProdutoDAO::listarProdutosByIds($ids)
+        ]);
+
+        return $tableProdutos;
+    }
+
+    private function atualizaDadosProduto(ItemProduto $itemProduto): void
+    {
+        $produto = $itemProduto->getProduto();
+        $novoPreco = ($produto->getPrecoEntrada() > $itemProduto->getValorUnitario() ? $produto->getPrecoEntrada() : $itemProduto->getValorUnitario());
+        $produto->setPrecoEntrada($novoPreco);
+        $produto->setPrecoSaida(($novoPreco * 1.35));
+        $produto->setEstoque($itemProduto->getQuantidade() + $produto->getEstoque());
+        ProdutoDAO::atualizar($produto, $produto->getId());
+    }
+
+    private function editarEntrada(array $data): void
+    {
+        $entradaId = $this->session->get("entradaId_" . $this->session->get("entradaKey"));
+        $entrada = EntradaDAO::get($entradaId);
+
+        if ($data["status"] == "EM_EDICAO") {
+            $this->atualizarEntrada($entrada);
+        }
+
+        $entrada->setStatus($data["status"]);
+        $entrada->setDescricao($data["descricao"]);
+        $entrada->setCodigoNota($data["codigo_nota"]);
+
+        $valorTotal = 0.0;
+        foreach ($this->listaItens() as $itemProduto) {
+            $itemProduto->setEntrada($entrada);
+            $entrada->getListaItemProdutos()->add($itemProduto);
+            $entrada->setValorTotal($valorTotal += $itemProduto->getValorTotal());
+
+            if ($entrada->getStatus() == "FINALIZADA") {
+                $this->atualizaDadosProduto($itemProduto);
+            }
+        }
+        EntradaDAO::atualizar($entrada);
+
+        $this->session->remove("entradaKey");
+        $this->session->remove("entradaId_" . $this->session->get("entradaKey"));
+        setMessage("Entrada finalizada com sucesso!", "alert-success");
+        redirect("/entrada/lista");
+    }
+
+    private function atualizarEntrada(Entrada $entrada): void
+    {
+        $valorTotal = 0.0;
+        foreach ($this->listaItens() as $itemProduto) {
+            $itemProduto->setEntrada($entrada);
+            $entrada->getListaItemProdutos()->add($itemProduto);
+            $entrada->setValorTotal($valorTotal += $itemProduto->getValorTotal());
+
+            if ($entrada->getStatus() == "FINALIZADA") {
+                $this->atualizaDadosProduto($itemProduto);
+            }
+        }
+
+        EntradaDAO::atualizar($entrada);
+
+        $this->session->remove("entradaKey");
+        $this->session->remove("entradaId_" . $this->session->get("entradaKey"));
+        setMessage("Entrada salva com sucesso!", "alert-success");
+        redirect("/entrada/lista");
+    }
+
+
     public function teste(): void
     {
-        // $this->finalizar();
     }
 }

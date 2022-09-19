@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 require __DIR__."/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
@@ -69,3 +71,5 @@ $route->dispatch();
 if ($route->error()) {
     $route->redirect("/oops/{$route->error()}");
 }
+
+ob_flush();

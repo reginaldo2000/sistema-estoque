@@ -78,24 +78,15 @@ class ProdutoDAO extends GenericDAO
         }
     }
 
-    public static function atualizar(Produto $produto): void
+    public static function atualizar(Produto $produto, int $id): void
     {
         try {
             $em = EntityManagerFactory::getEntityManager();
-            $produtoObject = $em->find(Produto::class, $produto->getId());
-
-            $produtoObject->setNome($produto->getNome());
-            $produtoObject->setCodigoProduto($produto->getCodigoProduto());
-            $produtoObject->setCodigoBarras($produto->getCodigoBarras());
-            $produtoObject->setEstoque($produto->getEstoque());
-            $produtoObject->setPrecoEntrada($produto->getPrecoEntrada());
-            $produtoObject->setPrecoSaida($produto->getPrecoSaida());
-            $produtoObject->setCategoria($produto->getCategoria());
-            $produtoObject->setUnidadeMedida($produto->getUnidadeMedida());
-            $produtoObject->setDataModificacao($produto->getDataModificacao());
+            $produtoObject = $em->find(Produto::class, $id);
+            $produtoObject = $produto;
             $em->flush();
         } catch (Exception $e) {
-            throw new Exception("Erro ao atualizar o produto!", 500);
+            throw new Exception("Erro ao atualizar o produto! - {$e->getMessage()}", 500);
         }
     }
 

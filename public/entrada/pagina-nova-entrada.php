@@ -1,4 +1,4 @@
-<?php $this->layout("_theme", ["nomePagina" => "Cadastrar Entrada"]); ?>
+<?php $this->layout("_theme", ["nomePagina" => $nomePagina]); ?>
 <?php include __DIR__ . "/_includes/modal-add-item.php"; ?>
 <?php include __DIR__ . "/_includes/modal-finaliza-entrada.php"; ?>
 
@@ -69,10 +69,10 @@
 
 </div>
 
-<div class="row">
+<div class="row" id="grupo-btn-entrada" hidden>
     <div class="col-lg-12 d-flex">
 
-        <button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada" hidden>
+        <button type="submit" class="btn btn-success mt-3" id="btnFinalizaEntrada" data-bs-toggle="modal" data-bs-target="#modalFinalizaEntrada">
             Finalizar Entrada
         </button>
 

@@ -19,7 +19,7 @@ class EntityManagerFactory {
     private static $useSimpleAnnotationReader = false;
     private static $instance = null;
 
-    public static function getEntityManager(): EntityManagerInterface {
+    public static function getEntityManager(): EntityManager {
         $config = ORMSetup::createAnnotationMetadataConfiguration(
                         array(__DIR__ . "/../../source"),
                         self::$isDevMode,

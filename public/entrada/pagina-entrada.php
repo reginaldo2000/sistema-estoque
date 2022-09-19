@@ -1,5 +1,7 @@
-<?php $this->layout("_theme", ["nomePagina" => "Registrar Entrada"]); ?>
+<?php $this->layout("_theme", ["nomePagina" => "Lista de Entradas"]); ?>
 <?php include __DIR__ . "/_includes/modal-visualizar-entrada.php"; ?>
+
+<?php showMessage(); ?>
 
 <a href="<?= url("/entrada/nova"); ?>" class="btn btn-primary">
     <i class="fa fa-plus"></i> Nova Entrada
@@ -41,10 +43,10 @@
                 <td><?= $entrada->getDescricao(); ?></td>
                 <td><?= formataMoeda($entrada->getValorTotal()); ?></td>
                 <td><?= $entrada->getStatus(); ?></td>
-                <td><?= $entrada->getDataCriacao()->format("d/m/Y"); ?></td>
+                <td><?= $entrada->getDataCriacao()->format("d/m/Y H:i"); ?></td>
                 <td class="text-center">
                     <div class="dropdown">
-                        <a class="btn btn-success btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-opcoes btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-cog"></i> Opções
                         </a>
                         <ul class="dropdown-menu">

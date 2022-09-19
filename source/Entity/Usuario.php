@@ -50,6 +50,12 @@ class Usuario
      */
     private DateTime $dataModificacao;
 
+    public function __construct()
+    {
+        $this->dataCriacao = new DateTime();
+        $this->dataModificacao = new DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

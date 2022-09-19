@@ -25,12 +25,12 @@ class ItemProduto
     private ?int $id = null;
 
     /**
-     * @ORM\ManyToOne
+     * @ORM\ManyToOne(fetch="EAGER")
      */
     private Produto $produto;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Entrada", inversedBy="listaItemProdutos")
+     * @ORM\ManyToOne(targetEntity="Entrada", inversedBy="listaItemProdutos", cascade={"merge","persist"})
      * @ORM\JoinColumn(name="entrada_id", referencedColumnName="id")
      */
     private Entrada $entrada;
@@ -50,9 +50,23 @@ class ItemProduto
      */
     private float $valorTotal;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable="true")
+     */
+    private ?string $chave = null;
+
     public function __construct()
     {
-        // $this->entrada = new Entrada();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getProduto(): Produto
@@ -75,7 +89,7 @@ class ItemProduto
         $this->produto = $produto;
     }
 
-    public function setEntrada(?Entrada $entrada): void
+    public function setEntrada(Entrada $entrada): void
     {
         $this->entrada = $entrada;
     }
@@ -105,13 +119,13 @@ class ItemProduto
         $this->valorTotal = $valorTotal;
     }
 
-    public function getId()
+    public function getChave(): ?string
     {
-        return $this->id;
+        return $this->chave;
     }
 
-    public function setId($id)
+    public function setChave(string $chave): void
     {
-        $this->id = $id;
+        $this->chave = $chave;
     }
 }
